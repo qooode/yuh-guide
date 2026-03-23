@@ -26,4 +26,4 @@ Getting the best picture and sound out of an Apple TV means changing settings ac
 
 ---
 
-**[View the guide →](https://exate.github.io/yuha-guide/)**
+**[View the guide →](https://qooode.github.io/yuh-guide/)**
