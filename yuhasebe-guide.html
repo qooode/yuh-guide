@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yuhasebe — Apple TV 4K Audio & Video Setup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0c0c;
+  --card: #141414;
+  --card-h: #191919;
+  --line: rgba(255,255,255,.06);
+  --line-h: rgba(255,255,255,.12);
+  --w: #f0f0f0;
+  --w2: #c0c0c0;
+  --g: #707070;
+  --g2: #484848;
+  --g3: #2e2e2e;
+  --mono: 'Space Mono', monospace;
+  --sans: 'Space Grotesk', sans-serif;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { background:var(--bg); color:var(--w2); font-family:var(--sans); scroll-behavior:smooth; -webkit-font-smoothing:antialiased; }
+body { overflow-x:hidden; }
+::selection { background:rgba(255,255,255,.1); }
+
+/* ======== GRAIN OVERLAY ======== */
+body::after {
+  content:'';
+  position:fixed; inset:0; z-index:9999; pointer-events:none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:.03;
+  mix-blend-mode:overlay;
+}
+
+/* ======== SCROLL PROGRESS ======== */
+#prog { position:fixed; top:0; left:0; height:2px; background:var(--w); z-index:100; width:0; }
+
+/* ======== FLOATING NAV ======== */
+.fnav {
+  position:fixed; top:0; left:0; right:0; z-index:90;
+  display:flex; align-items:center; justify-content:center; gap:2px; padding:10px 16px;
+  background:rgba(12,12,12,.9); backdrop-filter:blur(20px) saturate(1.4);
+  border-bottom:1px solid var(--line);
+  opacity:0; translate:0 -20px;
+  transition: opacity .4s, translate .4s;
+}
+.fnav.show { opacity:1; translate:0 0; }
+.fnav-links {
+  display:flex; justify-content:center; gap:2px;
+}
+.fnav a {
+  padding:6px 14px; border-radius:6px;
+  font-size:12px; font-weight:500; letter-spacing:.02em;
+  color:var(--g); text-decoration:none;
+  transition: color .2s, background .2s;
+}
+.fnav a:hover { color:var(--w2); }
+.fnav a.on { background:rgba(255,255,255,.1); color:var(--w); }
+
+/* ── mobile hamburger ── */
+.burger {
+  display:none; background:none; border:none; cursor:pointer;
+  width:40px; height:40px; padding:10px; flex-shrink:0;
+}
+.burger svg { width:20px; height:20px; color:var(--w2); display:block; }
+.burger .icon-x { display:none; }
+.burger.open .icon-menu { display:none; }
+.burger.open .icon-x { display:block; }
+
+.mob-menu {
+  position:fixed; top:0; left:0; right:0; z-index:89;
+  background:rgba(12,12,12,.97); backdrop-filter:blur(24px);
+  display:flex; flex-direction:column; align-items:stretch;
+  padding:60px 20px 28px;
+  transform:translateY(-100%); opacity:0; pointer-events:none;
+  transition:transform .35s cubic-bezier(.4,0,.2,1), opacity .3s;
+  border-bottom:1px solid var(--line);
+}
+.mob-menu.open { transform:translateY(0); opacity:1; pointer-events:auto; }
+.mob-menu a {
+  font-size:15px; font-weight:500; color:var(--w2); text-decoration:none;
+  padding:14px 16px; border-bottom:1px solid var(--line);
+  display:flex; align-items:center; justify-content:space-between;
+  transition:color .15s, background .15s;
+  letter-spacing:-.01em;
+}
+.mob-menu a:last-child { border-bottom:none; }
+.mob-menu a::after {
+  content:'›'; font-size:18px; color:var(--g2); font-weight:300;
+  transition:color .15s, transform .15s;
+}
+.mob-menu a:hover, .mob-menu a.on { color:var(--w); background:rgba(255,255,255,.03); }
+.mob-menu a:hover::after, .mob-menu a.on::after { color:var(--g); transform:translateX(3px); }
+.mob-num { font-family:var(--mono); font-size:11px; color:var(--g2); margin-right:12px; font-weight:400; }
+
+@media(max-width:640px) {
+  .fnav { justify-content:space-between; padding:8px 16px; }
+  .fnav-links { display:none; }
+  .burger { display:block; }
+  .fnav-brand-m { display:block; font-size:13px; font-weight:600; color:var(--w); }
+}
+@media(min-width:641px) {
+  .fnav-brand-m { display:none; }
+  .mob-menu { display:none !important; }
+}
+
+/* ======== HEADER ======== */
+.header {
+  padding:clamp(80px,12vh,140px) clamp(24px,6vw,80px) clamp(48px,6vh,72px);
+  position:relative;
+}
+.header-brand {
+  font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--g2); margin-bottom:20px;
+  opacity:0; animation: up .7s .15s forwards;
+}
+.header h1 {
+  font-size:clamp(26px,4.5vw,52px); font-weight:700; letter-spacing:-.035em; line-height:1;
+  color:var(--w); max-width:600px;
+  opacity:0; animation: up .7s .3s forwards;
+}
+.header-sub {
+  margin-top:14px; font-size:clamp(13px,1.5vw,16px); font-weight:400;
+  color:var(--g); max-width:440px; line-height:1.55;
+  opacity:0; animation: up .7s .45s forwards;
+}
+.header-line {
+  position:absolute; bottom:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg, transparent, var(--line-h) 20%, var(--line-h) 80%, transparent);
+}
+@keyframes up { to { opacity:1; translate:0 0; } }
+.header-brand, .header h1, .header-sub { translate: 0 16px; }
+
+/* ======== SECTION WRAPPER ======== */
+.s {
+  padding:clamp(56px,10vh,120px) clamp(24px,6vw,80px);
+  position:relative;
+}
+.s + .s { border-top:1px solid var(--line); }
+.s-inner { max-width:680px; }
+.s-wide { max-width:960px; }
+
+/* ======== SECTION HEADERS ======== */
+.sh {
+  display:flex; align-items:baseline; gap:16px;
+  margin-bottom:12px; flex-wrap:wrap;
+}
+.sh-num {
+  font-family:var(--mono); font-size:11px; color:var(--g2);
+  letter-spacing:.1em; flex-shrink:0;
+}
+.sh-title {
+  font-size:clamp(22px,3.5vw,34px); font-weight:600; letter-spacing:-.03em;
+  color:var(--w); line-height:1.1;
+}
+.sh-desc {
+  font-size:15px; color:var(--g); line-height:1.6; max-width:520px;
+  margin-bottom:clamp(32px,5vh,56px);
+}
+
+/* ======== INSTRUCTION CARDS ======== */
+.ins {
+  display:flex; flex-direction:column; gap:clamp(16px, 3vw, 12px);
+  counter-reset: ins-step;
+}
+@media(max-width:600px) { .ins { gap:20px; } }
+.ins-card {
+  background:var(--card); border:1px solid var(--line); border-radius:10px;
+  padding:clamp(20px,4vw,24px); transition:border-color .2s;
+}
+@media(max-width:600px) { .ins-card { padding:20px 16px; } }
+.ins-card:hover { border-color:var(--line-h); }
+.ins-name {
+  font-size:16px; font-weight:600; color:var(--w); letter-spacing:-.01em;
+  margin-bottom:12px;
+}
+
+/* the action line: "Set to → value" */
+.ins-action {
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  margin-bottom:12px; padding:10px 14px;
+  background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08);
+  border-radius:8px; transition:opacity .2s;
+}
+.ins-action-label {
+  font-family:var(--mono); font-size:11px; font-weight:500;
+  letter-spacing:.06em; text-transform:uppercase; color:var(--g);
+}
+.ins-action-arrow { color:var(--g2); font-size:14px; }
+.ins-action-val {
+  font-family:var(--mono); font-size:15px; font-weight:700; color:var(--w);
+}
+
+/* where to find it */
+.ins-path {
+  display:flex; align-items:center; gap:5px; flex-wrap:wrap; row-gap:6px;
+  margin-bottom:12px;
+}
+.ins-path-label {
+  font-family:var(--mono); font-size:10px; font-weight:500;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--g2);
+  margin-right:4px;
+}
+.ins-path .crumb {
+  font-family:var(--mono); font-size:12px; font-weight:500;
+  color:var(--w2); padding:4px 10px;
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:5px;
+}
+.ins-path .arr {
+  font-size:14px; color:var(--g); margin:0;
+}
+
+/* explanation */
+.ins-why {
+  font-size:13px; color:var(--g); line-height:1.6;
+}
+
+/* ======== GEN PICKER ======== */
+.gp { margin-top:40px; }
+.gp-label { font-family:var(--mono); font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--g2); margin-bottom:12px; }
+.gp-btns { display:flex; gap:8px; margin-bottom:16px; }
+.gp-btn {
+  padding:10px 20px; border:1px solid var(--line-h); border-radius:8px;
+  background:transparent; color:var(--g); font-family:var(--sans);
+  font-size:13px; font-weight:500; cursor:pointer; transition:all .2s;
+}
+.gp-btn:hover { border-color:var(--g2); color:var(--w2); }
+.gp-btn.on { background:var(--w); color:var(--bg); border-color:var(--w); }
+.gp-out {
+  padding:20px 24px; border:1px solid var(--line); border-radius:10px;
+  font-size:14px; color:var(--g); line-height:1.6; background:var(--card);
+}
+.gp-out b { color:var(--w); font-weight:600; }
+
+/* ======== CALLOUT ======== */
+.co {
+  margin-top:16px; padding:clamp(16px,3vw,22px); border-radius:10px;
+  background:var(--card); border:1px solid var(--line);
+  font-size:13px; color:var(--g); line-height:1.6;
+}
+.co + .co { margin-top:12px; }
+@media(max-width:600px) { .co + .co { margin-top:16px; } }
+.co-h {
+  font-family:var(--mono); font-size:10px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--g2); margin-bottom:8px;
+}
+.co b { color:var(--w2); font-weight:600; }
+.co.accent { }
+
+/* ======== STEPS ======== */
+.steps { display:flex; flex-direction:column; gap:0; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+.stp {
+  display:grid; grid-template-columns:48px 1fr; border-bottom:1px solid var(--line);
+  transition:background .2s;
+}
+.stp:last-child { border-bottom:none; }
+.stp:hover { background:var(--card); }
+.stp-n {
+  display:flex; align-items:flex-start; justify-content:center;
+  padding-top:20px; font-family:var(--mono); font-size:20px; font-weight:700;
+  color:var(--g3); border-right:1px solid var(--line);
+}
+.stp-body { padding:20px 24px; }
+.stp-body h4 { font-size:15px; font-weight:600; color:var(--w); margin-bottom:6px; line-height:1.3; }
+.stp-body p { font-size:13px; color:var(--g); line-height:1.6; }
+.pill {
+  display:inline-block; font-family:var(--mono); font-size:11px; font-weight:700;
+  color:var(--w); background:var(--g3); padding:2px 8px; border-radius:4px;
+}
+
+/* ======== PROFILE BARS ======== */
+.pfs { display:flex; flex-direction:column; gap:12px; }
+@media(max-width:600px) { .pfs { gap:20px; } }
+.pf {
+  display:flex; align-items:flex-start; gap:0;
+  border:1px solid var(--line); border-radius:10px; overflow:hidden;
+  transition:border-color .2s;
+}
+.pf:hover { border-color:var(--line-h); }
+.pf-badge {
+  width:56px; min-height:100%; display:flex; align-items:center; justify-content:center;
+  border-right:1px solid var(--line); flex-shrink:0;
+  font-family:var(--mono); font-size:13px; font-weight:700; color:var(--w);
+  background:var(--card);
+}
+.pf-body { padding:16px 20px; flex:1; }
+.pf-body h4 { font-size:14px; font-weight:600; color:var(--w2); margin-bottom:4px; }
+.pf-body p { font-size:12.5px; color:var(--g); line-height:1.55; }
+.pf-tag {
+  display:inline-block; margin-top:8px; font-family:var(--mono); font-size:9px; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase; padding:3px 8px; border-radius:4px;
+}
+.pf-tag.best { background:var(--w); color:var(--bg); }
+.pf-tag.compat { background:var(--g3); color:var(--g); }
+.pf-tag.no { background:transparent; border:1px solid var(--line); color:var(--g2); }
+
+/* ======== CHIPS ======== */
+.chips { display:flex; flex-wrap:wrap; gap:6px; margin:16px 0 8px; }
+.chip {
+  font-family:var(--mono); font-size:11px; color:var(--g2); padding:6px 14px;
+  border:1px solid var(--line); border-radius:6px;
+  text-decoration:line-through; text-decoration-color:var(--g3);
+}
+
+/* ======== TABLE ======== */
+.tbl-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:12px; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th {
+  text-align:left; font-family:var(--mono); font-size:10px; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--g2);
+  padding:12px 20px; border-bottom:1px solid var(--line); background:var(--card);
+}
+td { padding:12px 20px; border-bottom:1px solid var(--line); color:var(--g); }
+td:first-child { color:var(--w2); font-weight:500; }
+tr:last-child td { border-bottom:none; }
+tr:hover td { background:rgba(255,255,255,.015); }
+
+/* ======== FOOTER ======== */
+footer {
+  padding:48px clamp(24px,6vw,80px); border-top:1px solid var(--line);
+  display:flex; justify-content:space-between; align-items:center;
+  flex-wrap:wrap; gap:12px;
+}
+footer span { font-size:11px; color:var(--g2); }
+footer .fb { font-weight:600; color:var(--g); }
+
+/* ======== REVEAL ======== */
+.rv { opacity:0; translate:0 20px; transition:opacity .6s ease, translate .6s ease; }
+.rv.v { opacity:1; translate:0 0; }
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+
+<!-- FLOATING NAV -->
+<nav class="fnav" id="fnav">
+  <span class="fnav-brand-m">Yuhasebe</span>
+  <div class="fnav-links">
+    <a href="#video">Video Settings</a>
+    <a href="#audio">Audio Settings</a>
+    <a href="#chain">TV & Devices</a>
+    <a href="#dv">Dolby Vision</a>
+    <a href="#player">Fusion Player</a>
+    <a href="#ref">Quick Reference</a>
+  </div>
+  <button class="burger" id="burger" aria-label="Menu" onclick="toggleMenu()">
+    <svg class="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    <svg class="icon-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+</nav>
+
+<div class="mob-menu" id="mobMenu">
+  <a href="#video" onclick="closeMenu()"><span class="mob-num">01</span> Video Settings</a>
+  <a href="#audio" onclick="closeMenu()"><span class="mob-num">02</span> Audio Settings</a>
+  <a href="#chain" onclick="closeMenu()"><span class="mob-num">03</span> TV & Devices</a>
+  <a href="#dv" onclick="closeMenu()"><span class="mob-num">04</span> Dolby Vision</a>
+  <a href="#player" onclick="closeMenu()"><span class="mob-num">05</span> Fusion Player</a>
+  <a href="#ref" onclick="closeMenu()"><span class="mob-num">06</span> Quick Reference</a>
+</div>
+
+<!-- ════════════ HEADER ════════════ -->
+<header class="header">
+  <p class="header-brand">Yuhasebe</p>
+  <h1>Apple TV 4K<br>Audio & Video Setup</h1>
+  <p class="header-sub">Every setting you need for perfect playback. Walk through once, never think about it again.</p>
+  <div class="header-line"></div>
+</header>
+
+<!-- ════════════ 01 VIDEO ════════════ -->
+<section class="s" id="video">
+  <div class="s-inner rv">
+    <div class="sh"><span class="sh-num">01</span><h2 class="sh-title">Video</h2></div>
+    <p class="sh-desc">Open the Settings app on your Apple TV and go to Video and Audio. Here are the settings to change and why.</p>
+  </div>
+
+  <div class="s-wide rv">
+    <div class="ins">
+
+      <div class="ins-card">
+        <div class="ins-name">Format</div>
+        <div class="ins-action"><span class="ins-action-label">Set to</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">4K SDR, 60Hz</span></div>
+        <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Settings</span><span class="arr">&rsaquo;</span><span class="crumb">Video and Audio</span><span class="arr">&rsaquo;</span><span class="crumb">Format</span></div>
+        <p class="ins-why">This keeps your Apple TV home screen in SDR so it doesn't force your TV into HDR mode all the time. When you play HDR or Dolby Vision content, the ATV4K will switch automatically &mdash; you'll see a brief black screen, which means it's working correctly. If you have an older 1080p TV, choose 1080p instead. The 60Hz part keeps menus and navigation feeling smooth.</p>
+      </div>
+
+      <div class="ins-card">
+        <div class="ins-name">HDMI Output</div>
+        <div class="ins-action"><span class="ins-action-label">Set to</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">Depends on your model</span></div>
+        <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Settings</span><span class="arr">&rsaquo;</span><span class="crumb">Video and Audio</span><span class="arr">&rsaquo;</span><span class="crumb">HDMI Output</span></div>
+        <div class="gp" style="margin-top:8px">
+          <div class="gp-btns">
+            <button class="gp-btn on" onclick="gen(this,0)">1st / 2nd Gen</button>
+            <button class="gp-btn" onclick="gen(this,1)">3rd Gen</button>
+          </div>
+          <div class="gp-out" id="go"><b>RGB High.</b> The 1st and 2nd gen models have a known bug that adds a green tint when using YCbCr. Setting it to RGB High avoids this problem completely.</div>
+        </div>
+      </div>
+
+      <div class="ins-card">
+        <div class="ins-name">Chroma</div>
+        <div class="ins-action"><span class="ins-action-label">Set to</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">4:4:4</span></div>
+        <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Settings</span><span class="arr">&rsaquo;</span><span class="crumb">Video and Audio</span><span class="arr">&rsaquo;</span><span class="crumb">Chroma</span></div>
+        <p class="ins-why">This only shows up if you chose YCbCr above (3rd Gen). It controls how much color information gets sent to your TV. 4:4:4 means full color detail &mdash; no compression, most accurate picture.</p>
+      </div>
+
+      <div class="ins-card">
+        <div class="ins-name">Match Dynamic Range</div>
+        <div class="ins-action"><span class="ins-action-label">Turn</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">On</span></div>
+        <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Settings</span><span class="arr">&rsaquo;</span><span class="crumb">Video and Audio</span><span class="arr">&rsaquo;</span><span class="crumb">Match Content</span><span class="arr">&rsaquo;</span><span class="crumb">Match Dynamic Range</span></div>
+        <p class="ins-why">When enabled, your ATV4K automatically switches between SDR, HDR, and Dolby Vision depending on what you're watching. Without this, your TV might display SDR content in HDR mode (which looks washed out) or the other way around.</p>
+      </div>
+
+      <div class="ins-card">
+        <div class="ins-name">Match Frame Rate</div>
+        <div class="ins-action"><span class="ins-action-label">Turn</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">On</span></div>
+        <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Settings</span><span class="arr">&rsaquo;</span><span class="crumb">Video and Audio</span><span class="arr">&rsaquo;</span><span class="crumb">Match Content</span><span class="arr">&rsaquo;</span><span class="crumb">Match Frame Rate</span></div>
+        <p class="ins-why">This makes the ATV4K output the actual frame rate of your content (24fps for movies, 50/60fps for sports, etc.). Without it, movies can look stuttery or "juddery" because the TV is trying to convert frame rates on its own.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 02 AUDIO ════════════ -->
+<section class="s" id="audio">
+  <div class="s-inner rv">
+    <div class="sh"><span class="sh-num">02</span><h2 class="sh-title">Audio</h2></div>
+    <p class="sh-desc">Still in Settings &rsaquo; Video and Audio. One important thing to know: the Apple TV 4K doesn't pass audio straight through &mdash; it converts everything to uncompressed LPCM internally. Keep that in mind for the settings below.</p>
+  </div>
+
+  <div class="s-wide rv">
+    <div class="ins">
+
+      <div class="ins-card">
+        <div class="ins-name">Audio Format</div>
+        <div class="ins-action"><span class="ins-action-label">Set to</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">Auto</span></div>
+        <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Settings</span><span class="arr">&rsaquo;</span><span class="crumb">Video and Audio</span><span class="arr">&rsaquo;</span><span class="crumb">Audio Format</span></div>
+        <p class="ins-why">Make sure "Change Format" is turned <b>off</b>. This keeps your audio as uncompressed LPCM, which is the highest quality the ATV4K can output. If you have an Atmos-capable soundbar or receiver, also set "Atmos Available" to on. If you <i>don't</i> have Atmos gear, go to Immersive Audio and turn it off.</p>
+      </div>
+
+      <div class="ins-card">
+        <div class="ins-name">Audio Mode</div>
+        <div class="ins-action"><span class="ins-action-label">Set to</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">Auto</span></div>
+        <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Settings</span><span class="arr">&rsaquo;</span><span class="crumb">Video and Audio</span><span class="arr">&rsaquo;</span><span class="crumb">Audio Mode</span></div>
+        <p class="ins-why">Lets the Apple TV handle audio routing on its own. No need to touch this.</p>
+      </div>
+
+      <div class="ins-card">
+        <div class="ins-name">Reduce Loud Sounds</div>
+        <div class="ins-action"><span class="ins-action-label">Turn</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">Off</span></div>
+        <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Settings</span><span class="arr">&rsaquo;</span><span class="crumb">Video and Audio</span><span class="arr">&rsaquo;</span><span class="crumb">Reduce Loud Sounds</span></div>
+        <p class="ins-why">This is a personal preference, but turning it off preserves the original dynamic range of your movies and shows &mdash; quiet parts stay quiet, loud parts hit properly.</p>
+      </div>
+
+    </div>
+
+    <div class="co accent" style="margin-top:16px">
+      <div class="co-h">Volume feels too low?</div>
+      This is a common complaint. The ATV4K converts all audio to LPCM, and some receivers/soundbars handle the volume level (Dialnorm) differently. The fix: go into your receiver or soundbar's settings and increase the volume specifically for the HDMI input your ATV4K is connected to.
+    </div>
+    <div class="co" style="margin-top:8px">
+      <div class="co-h">Have an older system that doesn't support LPCM?</div>
+      As a last resort, go to <b>Settings &rsaquo; Video and Audio &rsaquo; Audio Format &rsaquo; Change Format</b> and switch to <b>Dolby Digital</b>. This outputs compressed audio so older systems can play it, but you'll lose quality. Only do this if nothing else works.
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 03 CHAIN ════════════ -->
+<section class="s" id="chain">
+  <div class="s-inner rv">
+    <div class="sh"><span class="sh-num">03</span><h2 class="sh-title">Your HDMI chain</h2></div>
+    <p class="sh-desc">Now leave the Apple TV settings and open your TV's own settings menu. Every device between the ATV4K and your display needs to be configured correctly, or HDR, Dolby Vision, and audio can silently break.</p>
+  </div>
+
+  <div class="s-wide rv">
+    <div class="ins">
+
+      <div class="ins-card">
+        <div class="ins-name">HDMI Black Level</div>
+        <div class="ins-action"><span class="ins-action-label">Set to</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">Limited</span></div>
+        <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Your TV</span><span class="arr">&rsaquo;</span><span class="crumb">Picture Settings</span><span class="arr">&rsaquo;</span><span class="crumb">HDMI Black Level</span></div>
+        <p class="ins-why">Many TVs have this set to "Auto" by default, but Auto frequently gets it wrong &mdash; you'll end up with crushed blacks (dark scenes become a black blob) or a washed-out, grayish picture. The "Full" option is only meant for when you're using your TV as a PC monitor. All streaming content and Blu-rays use the limited color range, so set your TV to match.</p>
+      </div>
+
+      <div class="ins-card">
+        <div class="ins-name">HDMI Signal Format</div>
+        <div class="ins-action"><span class="ins-action-label">Set to</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">Enhanced</span></div>
+        <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Your TV</span><span class="arr">&rsaquo;</span><span class="crumb">External Input Settings</span><span class="arr">&rsaquo;</span><span class="crumb">HDMI Signal Format</span></div>
+        <p class="ins-why">Your TV might call this "Enhanced Plus", "HDMI Deep Color", "Input Signal Plus", or something else entirely. This tells your TV to accept the full HDR and Dolby Vision signal from the ATV4K. Without it, you can lose black detail, get washed-out images, or HDR might not work at all. <b>Important:</b> if you have a soundbar or AV receiver in between, check if those devices have their own HDMI signal settings and set them to Enhanced too.</p>
+      </div>
+
+      <div class="ins-card">
+        <div class="ins-name">TV Pulldown / Telecine</div>
+        <div class="ins-action"><span class="ins-action-label">Turn</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">Off</span></div>
+        <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Your TV</span><span class="arr">&rsaquo;</span><span class="crumb">Picture Settings</span><span class="arr">&rsaquo;</span><span class="crumb">Motion / Film Mode</span></div>
+        <p class="ins-why">Since you turned on "Match Frame Rate" on the ATV4K, the Apple TV is already sending the correct frame rate to your TV. If your TV also tries to do its own frame rate conversion, the two will conflict and you'll get stuttering or dropped frames. Turn off your TV's version. Every brand calls it something different: Sony calls it <span class="pill">CineMotion</span>, LG calls it <span class="pill">Real Cinema</span>. Check your TV's motion or picture settings.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 04 DV ════════════ -->
+<section class="s" id="dv">
+  <div class="s-inner rv">
+    <div class="sh"><span class="sh-num">04</span><h2 class="sh-title">Dolby Vision profiles</h2></div>
+    <p class="sh-desc">You don't need to change any settings here &mdash; this is just helpful background. The ATV4K supports several HDR formats, but Dolby Vision comes in different "profiles" that behave very differently.</p>
+  </div>
+
+  <div class="s-wide rv">
+    <div class="pfs">
+      <div class="pf">
+        <div class="pf-badge">P5</div>
+        <div class="pf-body">
+          <h4>Profile 5 — Streaming</h4>
+          <p>Used by every major service. No HDR10 fallback — unsupported devices show green/pink. ATV4K plays P5 with excellent color accuracy.</p>
+          <span class="pf-tag best">Best on ATV4K</span>
+        </div>
+      </div>
+      <div class="pf">
+        <div class="pf-badge">P8</div>
+        <div class="pf-body">
+          <h4>Profile 8 — Hybrid</h4>
+          <p>Supports both HDR10 and DV. Converted from P7/P5 for compatibility. Most third-party players handle it. Worse color accuracy than P5 on ATV4K, but few will notice.</p>
+          <span class="pf-tag compat">Most compatible</span>
+        </div>
+      </div>
+      <div class="pf">
+        <div class="pf-badge">P7</div>
+        <div class="pf-body">
+          <h4>Profile 7 — UHD Blu-ray</h4>
+          <p>Dual-layer format for physical media. Requires dedicated UHD player hardware. Not on ATV4K, won't ever be. Fusion can't work around this.</p>
+          <span class="pf-tag no">Not supported</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 05 PLAYER ════════════ -->
+<section class="s" id="player">
+  <div class="s-inner rv">
+    <div class="sh"><span class="sh-num">05</span><h2 class="sh-title">Fusion-specific settings</h2></div>
+    <p class="sh-desc">Everything above applies to any app on your ATV4K. This section is specifically for the Fusion player and its limitations.</p>
+  </div>
+
+  <div class="s-wide rv">
+    <div class="ins">
+      <div class="ins-card">
+        <div class="ins-name">Cache to Disk</div>
+        <div class="ins-action"><span class="ins-action-label">Turn</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">On</span></div>
+        <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Fusion App</span><span class="arr">&rsaquo;</span><span class="crumb">Settings</span><span class="arr">&rsaquo;</span><span class="crumb">Player Settings</span><span class="arr">&rsaquo;</span><span class="crumb">Cache to Disk</span></div>
+        <p class="ins-why">This tells the Fusion player to buffer the stream ahead of time. Instead of loading each chunk right when you need it, the ATV4K downloads content in advance, which prevents stuttering and buffering interruptions during playback.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:32px">
+      <div class="gp-label">Unsupported formats</div>
+      <div class="chips">
+        <span class="chip">DV Profile 5 (Fusion player)</span>
+        <span class="chip">DTS</span>
+        <span class="chip">DTS-HD MA</span>
+        <span class="chip">Dolby TrueHD</span>
+      </div>
+      <p style="font-size:12px;color:var(--g2);margin-top:8px;line-height:1.5">Licensing. Premium codecs need a third-party player to decode first. Apple doesn't hold the licenses.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 06 QUICK REF ════════════ -->
+<section class="s" id="ref">
+  <div class="s-inner rv">
+    <div class="sh"><span class="sh-num">06</span><h2 class="sh-title">Quick reference</h2></div>
+    <p class="sh-desc">Everything in one table. Set it and forget it.</p>
+  </div>
+
+  <div class="s-wide rv">
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Setting</th><th>Value</th><th>Where to find it</th></tr></thead>
+        <tbody>
+          <tr><td>Format</td><td>4K SDR, 60Hz</td><td>Settings &rsaquo; Video and Audio &rsaquo; Format</td></tr>
+          <tr><td>HDMI Output</td><td>RGB High / YCbCr</td><td>Settings &rsaquo; Video and Audio &rsaquo; HDMI Output</td></tr>
+          <tr><td>Chroma</td><td>4:4:4</td><td>Settings &rsaquo; Video and Audio &rsaquo; Chroma</td></tr>
+          <tr><td>Match Dynamic Range</td><td>On</td><td>Settings &rsaquo; Video and Audio &rsaquo; Match Content</td></tr>
+          <tr><td>Match Frame Rate</td><td>On</td><td>Settings &rsaquo; Video and Audio &rsaquo; Match Content</td></tr>
+          <tr><td>Audio Format</td><td>Auto (LPCM)</td><td>Settings &rsaquo; Video and Audio &rsaquo; Audio Format</td></tr>
+          <tr><td>Atmos</td><td>Available</td><td>Settings &rsaquo; Video and Audio &rsaquo; Audio Format</td></tr>
+          <tr><td>Audio Mode</td><td>Auto</td><td>Settings &rsaquo; Video and Audio &rsaquo; Audio Mode</td></tr>
+          <tr><td>Reduce Loud Sounds</td><td>Off</td><td>Settings &rsaquo; Video and Audio &rsaquo; Reduce Loud Sounds</td></tr>
+          <tr><td>TV Black Level</td><td>Limited</td><td>Your TV &rsaquo; Picture Settings</td></tr>
+          <tr><td>TV HDMI Signal</td><td>Enhanced</td><td>Your TV &rsaquo; External Input Settings</td></tr>
+          <tr><td>TV Pulldown</td><td>Off</td><td>Your TV &rsaquo; Picture &rsaquo; Motion Settings</td></tr>
+          <tr><td>Cache to Disk</td><td>On</td><td>Fusion App &rsaquo; Settings &rsaquo; Player Settings</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="fb">Yuhasebe</span>
+  <span>Updated Mar 21, 2026 &middot; tvOS 26.3</span>
+</footer>
+
+<script>
+/* progress bar */
+const prog = document.getElementById('prog');
+addEventListener('scroll', () => {
+  prog.style.width = (scrollY / (document.documentElement.scrollHeight - innerHeight) * 100) + '%';
+});
+
+/* floating nav visibility */
+const fnav = document.getElementById('fnav');
+addEventListener('scroll', () => { fnav.classList.toggle('show', scrollY > 200); });
+
+/* floating nav active */
+const allNavLinks = document.querySelectorAll('.fnav-links a');
+const sects = document.querySelectorAll('.s[id]');
+addEventListener('scroll', () => {
+  let cur = '';
+  sects.forEach(s => { if (scrollY >= s.offsetTop - 200) cur = s.id; });
+  allNavLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + cur));
+});
+
+/* reveal */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('v'); }), { threshold: .05, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+/* hamburger menu */
+const burger = document.getElementById('burger');
+const mobMenu = document.getElementById('mobMenu');
+function toggleMenu() {
+  burger.classList.toggle('open');
+  mobMenu.classList.toggle('open');
+  document.body.style.overflow = mobMenu.classList.contains('open') ? 'hidden' : '';
+}
+function closeMenu() {
+  burger.classList.remove('open');
+  mobMenu.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* highlight active link in mob menu */
+const mobLinks = document.querySelectorAll('.mob-menu a');
+addEventListener('scroll', () => {
+  let cur = '';
+  sects.forEach(s => { if (scrollY >= s.offsetTop - 200) cur = s.id; });
+  mobLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + cur));
+});
+
+/* gen picker */
+const gt = [
+  '<b>RGB High.</b> Older models have a chroma bug that adds a green tint with YCbCr. RGB High eliminates it.',
+  '<b>YCbCr</b> with <b>4:4:4 Chroma.</b> Green tint bug was fixed in the latest tvOS for 3rd Gen. YCbCr now delivers the most accurate colors.'
+];
+function gen(btn, i) {
+  document.querySelectorAll('.gp-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('go').innerHTML = gt[i];
+}
+</script>
+</body>
+</html>
