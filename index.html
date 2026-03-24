@@ -9,15 +9,15 @@
 <style>
 :root {
   --bg: #0c0c0c;
-  --card: #141414;
-  --card-h: #191919;
-  --line: rgba(255,255,255,.06);
-  --line-h: rgba(255,255,255,.12);
-  --w: #f0f0f0;
-  --w2: #c0c0c0;
-  --g: #707070;
-  --g2: #484848;
-  --g3: #2e2e2e;
+  --card: #151515;
+  --card-h: #1c1c1c;
+  --line: rgba(255,255,255,.07);
+  --line-h: rgba(255,255,255,.14);
+  --w: #f2f2f2;
+  --w2: #c8c8c8;
+  --g: #8e8e8e;
+  --g2: #636363;
+  --g3: #3a3a3a;
   --mono: 'Space Mono', monospace;
   --sans: 'Space Grotesk', sans-serif;
 }
@@ -53,8 +53,8 @@ body::after {
   display:flex; justify-content:center; gap:2px;
 }
 .fnav a {
-  padding:6px 14px; border-radius:6px;
-  font-size:12px; font-weight:500; letter-spacing:.02em;
+  padding:7px 16px; border-radius:6px;
+  font-size:13px; font-weight:500; letter-spacing:.02em;
   color:var(--g); text-decoration:none;
   transition: color .2s, background .2s;
 }
@@ -82,20 +82,20 @@ body::after {
 }
 .mob-menu.open { transform:translateY(0); opacity:1; pointer-events:auto; }
 .mob-menu a {
-  font-size:15px; font-weight:500; color:var(--w2); text-decoration:none;
-  padding:14px 16px; border-bottom:1px solid var(--line);
+  font-size:16px; font-weight:500; color:var(--w2); text-decoration:none;
+  padding:16px 18px; border-bottom:1px solid var(--line);
   display:flex; align-items:center; justify-content:space-between;
   transition:color .15s, background .15s;
   letter-spacing:-.01em;
 }
 .mob-menu a:last-child { border-bottom:none; }
 .mob-menu a::after {
-  content:'›'; font-size:18px; color:var(--g2); font-weight:300;
+  content:'›'; font-size:20px; color:var(--g2); font-weight:300;
   transition:color .15s, transform .15s;
 }
 .mob-menu a:hover, .mob-menu a.on { color:var(--w); background:rgba(255,255,255,.03); }
 .mob-menu a:hover::after, .mob-menu a.on::after { color:var(--g); transform:translateX(3px); }
-.mob-num { font-family:var(--mono); font-size:11px; color:var(--g2); margin-right:12px; font-weight:400; }
+.mob-num { font-family:var(--mono); font-size:12px; color:var(--g2); margin-right:12px; font-weight:400; }
 
 @media(max-width:640px) {
   .fnav { justify-content:space-between; padding:8px 16px; }
@@ -137,7 +137,7 @@ body::after {
 
 /* ======== SECTION WRAPPER ======== */
 .s {
-  padding:clamp(56px,10vh,120px) clamp(24px,6vw,80px);
+  padding:clamp(36px,6vh,72px) clamp(24px,6vw,80px);
   position:relative;
 }
 .s + .s { border-top:1px solid var(--line); }
@@ -147,18 +147,19 @@ body::after {
 /* ======== SECTION HEADERS ======== */
 .sh {
   display:flex; align-items:baseline; gap:16px;
-  margin-bottom:12px; flex-wrap:wrap;
+  margin-bottom:14px; flex-wrap:wrap;
 }
 .sh-num {
-  font-family:var(--mono); font-size:11px; color:var(--g2);
+  font-family:var(--mono); font-size:12px; color:var(--g2);
   letter-spacing:.1em; flex-shrink:0;
+  background:rgba(255,255,255,.06); padding:4px 10px; border-radius:5px;
 }
 .sh-title {
   font-size:clamp(22px,3.5vw,34px); font-weight:600; letter-spacing:-.03em;
   color:var(--w); line-height:1.1;
 }
 .sh-desc {
-  font-size:15px; color:var(--g); line-height:1.6; max-width:520px;
+  font-size:16px; color:var(--g); line-height:1.65; max-width:560px;
   margin-bottom:clamp(32px,5vh,56px);
 }
 
@@ -175,78 +176,78 @@ body::after {
 @media(max-width:600px) { .ins-card { padding:20px 16px; } }
 .ins-card:hover { border-color:var(--line-h); }
 .ins-name {
-  font-size:16px; font-weight:600; color:var(--w); letter-spacing:-.01em;
-  margin-bottom:12px;
+  font-size:18px; font-weight:600; color:var(--w); letter-spacing:-.01em;
+  margin-bottom:14px;
 }
 
 /* the action line: "Set to → value" */
 .ins-action {
-  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
-  margin-bottom:12px; padding:10px 14px;
-  background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08);
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  margin-bottom:16px; padding:12px 18px;
+  background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1);
   border-radius:8px; transition:opacity .2s;
 }
 .ins-action-label {
-  font-family:var(--mono); font-size:11px; font-weight:500;
+  font-family:var(--mono); font-size:12px; font-weight:600;
   letter-spacing:.06em; text-transform:uppercase; color:var(--g);
 }
-.ins-action-arrow { color:var(--g2); font-size:14px; }
+.ins-action-arrow { color:var(--g2); font-size:16px; }
 .ins-action-val {
-  font-family:var(--mono); font-size:15px; font-weight:700; color:var(--w);
+  font-family:var(--mono); font-size:16px; font-weight:700; color:var(--w);
 }
 
 /* where to find it */
 .ins-path {
-  display:flex; align-items:center; gap:5px; flex-wrap:wrap; row-gap:6px;
-  margin-bottom:12px;
+  display:flex; align-items:center; gap:6px; flex-wrap:wrap; row-gap:8px;
+  margin-bottom:16px;
 }
 .ins-path-label {
-  font-family:var(--mono); font-size:10px; font-weight:500;
+  font-family:var(--mono); font-size:11px; font-weight:600;
   letter-spacing:.08em; text-transform:uppercase; color:var(--g2);
   margin-right:4px;
 }
 .ins-path .crumb {
-  font-family:var(--mono); font-size:12px; font-weight:500;
+  font-family:var(--mono); font-size:13px; font-weight:500;
   color:var(--w2); padding:4px 10px;
   background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:5px;
 }
 .ins-path .arr {
-  font-size:14px; color:var(--g); margin:0;
+  font-size:15px; color:var(--g2); margin:0;
 }
 
 /* explanation */
 .ins-why {
-  font-size:13px; color:var(--g); line-height:1.6;
+  font-size:14.5px; color:var(--g); line-height:1.7;
 }
 
 /* ======== GEN PICKER ======== */
 .gp { margin-top:40px; }
-.gp-label { font-family:var(--mono); font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--g2); margin-bottom:12px; }
+.gp-label { font-family:var(--mono); font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--g2); margin-bottom:12px; }
 .gp-btns { display:flex; gap:8px; margin-bottom:16px; }
 .gp-btn {
-  padding:10px 20px; border:1px solid var(--line-h); border-radius:8px;
+  padding:11px 22px; border:1px solid var(--line-h); border-radius:8px;
   background:transparent; color:var(--g); font-family:var(--sans);
-  font-size:13px; font-weight:500; cursor:pointer; transition:all .2s;
+  font-size:14px; font-weight:500; cursor:pointer; transition:all .2s;
 }
 .gp-btn:hover { border-color:var(--g2); color:var(--w2); }
 .gp-btn.on { background:var(--w); color:var(--bg); border-color:var(--w); }
 .gp-out {
   padding:20px 24px; border:1px solid var(--line); border-radius:10px;
-  font-size:14px; color:var(--g); line-height:1.6; background:var(--card);
+  font-size:14.5px; color:var(--g); line-height:1.65; background:var(--card);
 }
 .gp-out b { color:var(--w); font-weight:600; }
 
 /* ======== CALLOUT ======== */
 .co {
-  margin-top:16px; padding:clamp(16px,3vw,22px); border-radius:10px;
-  background:var(--card); border:1px solid var(--line);
-  font-size:13px; color:var(--g); line-height:1.6;
+  margin-top:16px; padding:clamp(18px,3vw,24px); border-radius:10px;
+  background:var(--card-h); border:1px solid var(--line-h);
+  font-size:14.5px; color:var(--g); line-height:1.65;
 }
 .co + .co { margin-top:12px; }
 @media(max-width:600px) { .co + .co { margin-top:16px; } }
 .co-h {
-  font-family:var(--mono); font-size:10px; letter-spacing:.1em;
-  text-transform:uppercase; color:var(--g2); margin-bottom:8px;
+  font-family:var(--mono); font-size:11px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--g2); margin-bottom:10px;
 }
 .co b { color:var(--w2); font-weight:600; }
 .co.accent { }
@@ -265,15 +266,15 @@ body::after {
   color:var(--g3); border-right:1px solid var(--line);
 }
 .stp-body { padding:20px 24px; }
-.stp-body h4 { font-size:15px; font-weight:600; color:var(--w); margin-bottom:6px; line-height:1.3; }
-.stp-body p { font-size:13px; color:var(--g); line-height:1.6; }
+.stp-body h4 { font-size:16px; font-weight:600; color:var(--w); margin-bottom:6px; line-height:1.3; }
+.stp-body p { font-size:14.5px; color:var(--g); line-height:1.65; }
 .pill {
-  display:inline-block; font-family:var(--mono); font-size:11px; font-weight:700;
-  color:var(--w); background:var(--g3); padding:2px 8px; border-radius:4px;
+  display:inline-block; font-family:var(--mono); font-size:12px; font-weight:700;
+  color:var(--w); background:var(--g3); padding:3px 9px; border-radius:4px;
 }
 
 /* ======== PROFILE BARS ======== */
-.pfs { display:flex; flex-direction:column; gap:12px; }
+.pfs { display:flex; flex-direction:column; gap:14px; }
 @media(max-width:600px) { .pfs { gap:20px; } }
 .pf {
   display:flex; align-items:flex-start; gap:0;
@@ -282,42 +283,57 @@ body::after {
 }
 .pf:hover { border-color:var(--line-h); }
 .pf-badge {
-  width:56px; min-height:100%; display:flex; align-items:center; justify-content:center;
+  width:60px; min-height:100%; display:flex; align-items:center; justify-content:center;
   border-right:1px solid var(--line); flex-shrink:0;
-  font-family:var(--mono); font-size:13px; font-weight:700; color:var(--w);
+  font-family:var(--mono); font-size:14px; font-weight:700; color:var(--w);
   background:var(--card);
 }
-.pf-body { padding:16px 20px; flex:1; }
-.pf-body h4 { font-size:14px; font-weight:600; color:var(--w2); margin-bottom:4px; }
-.pf-body p { font-size:12.5px; color:var(--g); line-height:1.55; }
+.pf-body { padding:18px 22px; flex:1; }
+.pf-body h4 { font-size:15px; font-weight:600; color:var(--w2); margin-bottom:5px; }
+.pf-body p { font-size:14px; color:var(--g); line-height:1.6; }
 .pf-tag {
-  display:inline-block; margin-top:8px; font-family:var(--mono); font-size:9px; font-weight:700;
-  letter-spacing:.08em; text-transform:uppercase; padding:3px 8px; border-radius:4px;
+  display:inline-block; margin-top:10px; font-family:var(--mono); font-size:10px; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase; padding:4px 10px; border-radius:4px;
 }
 .pf-tag.best { background:var(--w); color:var(--bg); }
 .pf-tag.compat { background:var(--g3); color:var(--g); }
 .pf-tag.no { background:transparent; border:1px solid var(--line); color:var(--g2); }
 
-/* ======== CHIPS ======== */
-.chips { display:flex; flex-wrap:wrap; gap:6px; margin:16px 0 8px; }
-.chip {
-  font-family:var(--mono); font-size:11px; color:var(--g2); padding:6px 14px;
-  border:1px solid var(--line); border-radius:6px;
-  text-decoration:line-through; text-decoration-color:var(--g3);
+/* ======== UNSUPPORTED LIST ======== */
+.unsup { margin-top:32px; }
+.unsup-label {
+  font-family:var(--mono); font-size:11px; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--g2); margin-bottom:12px;
+}
+.unsup-list {
+  border:1px solid var(--line); border-radius:10px; overflow:hidden;
+}
+.unsup-item {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 20px; border-bottom:1px solid var(--line);
+  font-family:var(--mono); font-size:14px; font-weight:500; color:var(--w2);
+}
+.unsup-item:last-child { border-bottom:none; }
+.unsup-item::after {
+  content:'\00D7'; font-size:18px; color:var(--g3); font-weight:400;
+}
+.unsup-note {
+  font-size:14px; color:var(--g); margin-top:12px; line-height:1.55;
 }
 
 /* ======== TABLE ======== */
 .tbl-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:12px; }
-table { width:100%; border-collapse:collapse; font-size:13px; }
+table { width:100%; border-collapse:collapse; font-size:14px; }
 th {
-  text-align:left; font-family:var(--mono); font-size:10px; font-weight:700;
+  text-align:left; font-family:var(--mono); font-size:11px; font-weight:700;
   letter-spacing:.1em; text-transform:uppercase; color:var(--g2);
-  padding:12px 20px; border-bottom:1px solid var(--line); background:var(--card);
+  padding:14px 20px; border-bottom:1px solid var(--line); background:var(--card);
 }
-td { padding:12px 20px; border-bottom:1px solid var(--line); color:var(--g); }
+td { padding:14px 20px; border-bottom:1px solid var(--line); color:var(--g); line-height:1.5; }
 td:first-child { color:var(--w2); font-weight:500; }
+td:last-child { font-size:13px; }
 tr:last-child td { border-bottom:none; }
-tr:hover td { background:rgba(255,255,255,.015); }
+tr:hover td { background:rgba(255,255,255,.02); }
 
 /* ======== FOOTER ======== */
 footer {
@@ -325,7 +341,7 @@ footer {
   display:flex; justify-content:space-between; align-items:center;
   flex-wrap:wrap; gap:12px;
 }
-footer span { font-size:11px; color:var(--g2); }
+footer span { font-size:13px; color:var(--g2); }
 footer .fb { font-weight:600; color:var(--g); }
 
 /* ======== REVEAL ======== */
@@ -385,7 +401,7 @@ footer .fb { font-weight:600; color:var(--g); }
         <div class="ins-name">Format</div>
         <div class="ins-action"><span class="ins-action-label">Set to</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">4K SDR, 60Hz</span></div>
         <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Settings</span><span class="arr">&rsaquo;</span><span class="crumb">Video and Audio</span><span class="arr">&rsaquo;</span><span class="crumb">Format</span></div>
-        <p class="ins-why">This keeps your Apple TV home screen in SDR so it doesn't force your TV into HDR mode all the time. When you play HDR or Dolby Vision content, the ATV4K will switch automatically &mdash; you'll see a brief black screen, which means it's working correctly. If you have an older 1080p TV, choose 1080p instead. The 60Hz part keeps menus and navigation feeling smooth.</p>
+        <p class="ins-why">This keeps your Apple TV home screen in SDR so it doesn't force your TV into HDR mode all the time. When you play HDR or Dolby Vision content, the ATV4K will switch automatically. You'll see a brief black screen, which means it's working correctly. If you have an older 1080p TV, choose 1080p instead. The 60Hz part keeps menus and navigation feeling smooth.</p>
       </div>
 
       <div class="ins-card">
@@ -405,7 +421,7 @@ footer .fb { font-weight:600; color:var(--g); }
         <div class="ins-name">Chroma</div>
         <div class="ins-action"><span class="ins-action-label">Set to</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">4:4:4</span></div>
         <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Settings</span><span class="arr">&rsaquo;</span><span class="crumb">Video and Audio</span><span class="arr">&rsaquo;</span><span class="crumb">Chroma</span></div>
-        <p class="ins-why">This only shows up if you chose YCbCr above (3rd Gen). It controls how much color information gets sent to your TV. 4:4:4 means full color detail &mdash; no compression, most accurate picture.</p>
+        <p class="ins-why">This only shows up if you chose YCbCr above (3rd Gen). It controls how much color information gets sent to your TV. 4:4:4 means full color detail with no compression and the most accurate picture.</p>
       </div>
 
       <div class="ins-card">
@@ -420,6 +436,10 @@ footer .fb { font-weight:600; color:var(--g); }
         <div class="ins-action"><span class="ins-action-label">Turn</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">On</span></div>
         <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Settings</span><span class="arr">&rsaquo;</span><span class="crumb">Video and Audio</span><span class="arr">&rsaquo;</span><span class="crumb">Match Content</span><span class="arr">&rsaquo;</span><span class="crumb">Match Frame Rate</span></div>
         <p class="ins-why">This makes the ATV4K output the actual frame rate of your content (24fps for movies, 50/60fps for sports, etc.). Without it, movies can look stuttery or "juddery" because the TV is trying to convert frame rates on its own.</p>
+        <div class="co" style="margin-top:12px">
+          <div class="co-h">Not working well for you?</div>
+          There is no one-size-fits-all solution here. Too many variables (different TVs, different apps) for a single setting to work equally well for everyone. While it's generally recommended to let the ATV4K output the correct frame rate natively to avoid A/V issues (one of its major strengths), in some cases this may not be ideal. If your TV doesn't handle the signal correctly, or the streaming app you're using doesn't support frame matching, try turning Match Frame Rate <b>off</b> and letting your TV handle the pulldown instead.
+        </div>
       </div>
 
     </div>
@@ -430,7 +450,7 @@ footer .fb { font-weight:600; color:var(--g); }
 <section class="s" id="audio">
   <div class="s-inner rv">
     <div class="sh"><span class="sh-num">02</span><h2 class="sh-title">Audio</h2></div>
-    <p class="sh-desc">Still in Settings &rsaquo; Video and Audio. One important thing to know: the Apple TV 4K doesn't pass audio straight through &mdash; it converts everything to uncompressed LPCM internally. Keep that in mind for the settings below.</p>
+    <p class="sh-desc">Still in Settings &rsaquo; Video and Audio. One important thing to know: the Apple TV 4K doesn't pass audio straight through. It converts everything to uncompressed LPCM internally. Keep that in mind for the settings below.</p>
   </div>
 
   <div class="s-wide rv">
@@ -454,7 +474,7 @@ footer .fb { font-weight:600; color:var(--g); }
         <div class="ins-name">Reduce Loud Sounds</div>
         <div class="ins-action"><span class="ins-action-label">Turn</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">Off</span></div>
         <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Settings</span><span class="arr">&rsaquo;</span><span class="crumb">Video and Audio</span><span class="arr">&rsaquo;</span><span class="crumb">Reduce Loud Sounds</span></div>
-        <p class="ins-why">This is a personal preference, but turning it off preserves the original dynamic range of your movies and shows &mdash; quiet parts stay quiet, loud parts hit properly.</p>
+        <p class="ins-why">This is a personal preference, but turning it off preserves the original dynamic range of your movies and shows. Quiet parts stay quiet, loud parts hit properly.</p>
       </div>
 
     </div>
@@ -484,7 +504,7 @@ footer .fb { font-weight:600; color:var(--g); }
         <div class="ins-name">HDMI Black Level</div>
         <div class="ins-action"><span class="ins-action-label">Set to</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">Limited</span></div>
         <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Your TV</span><span class="arr">&rsaquo;</span><span class="crumb">Picture Settings</span><span class="arr">&rsaquo;</span><span class="crumb">HDMI Black Level</span></div>
-        <p class="ins-why">Many TVs have this set to "Auto" by default, but Auto frequently gets it wrong &mdash; you'll end up with crushed blacks (dark scenes become a black blob) or a washed-out, grayish picture. The "Full" option is only meant for when you're using your TV as a PC monitor. All streaming content and Blu-rays use the limited color range, so set your TV to match.</p>
+        <p class="ins-why">Many TVs have this set to "Auto" by default, but Auto frequently gets it wrong. You'll end up with crushed blacks (dark scenes become a black blob) or a washed-out, grayish picture. The "Full" option is only meant for when you're using your TV as a PC monitor. All streaming content and Blu-rays use the limited color range, so set your TV to match.</p>
       </div>
 
       <div class="ins-card">
@@ -509,7 +529,7 @@ footer .fb { font-weight:600; color:var(--g); }
 <section class="s" id="dv">
   <div class="s-inner rv">
     <div class="sh"><span class="sh-num">04</span><h2 class="sh-title">Dolby Vision profiles</h2></div>
-    <p class="sh-desc">You don't need to change any settings here &mdash; this is just helpful background. The ATV4K supports several HDR formats, but Dolby Vision comes in different "profiles" that behave very differently.</p>
+    <p class="sh-desc">You don't need to change any settings here. This is just helpful background. The ATV4K supports several HDR formats, but Dolby Vision comes in different "profiles" that behave very differently.</p>
   </div>
 
   <div class="s-wide rv">
@@ -518,7 +538,7 @@ footer .fb { font-weight:600; color:var(--g); }
         <div class="pf-badge">P5</div>
         <div class="pf-body">
           <h4>Profile 5 — Streaming</h4>
-          <p>Used by every major service. No HDR10 fallback — unsupported devices show green/pink. ATV4K plays P5 with excellent color accuracy.</p>
+          <p>Used by every major service. No HDR10 fallback, so unsupported devices show green/pink. ATV4K plays P5 with excellent color accuracy.</p>
           <span class="pf-tag best">Best on ATV4K</span>
         </div>
       </div>
@@ -559,15 +579,15 @@ footer .fb { font-weight:600; color:var(--g); }
       </div>
     </div>
 
-    <div style="margin-top:32px">
-      <div class="gp-label">Unsupported formats</div>
-      <div class="chips">
-        <span class="chip">DV Profile 5 (Fusion player)</span>
-        <span class="chip">DTS</span>
-        <span class="chip">DTS-HD MA</span>
-        <span class="chip">Dolby TrueHD</span>
+    <div class="unsup">
+      <div class="unsup-label">Unsupported formats</div>
+      <div class="unsup-list">
+        <div class="unsup-item">DV Profile 5 (Fusion player)</div>
+        <div class="unsup-item">DTS</div>
+        <div class="unsup-item">DTS-HD MA</div>
+        <div class="unsup-item">Dolby TrueHD</div>
       </div>
-      <p style="font-size:12px;color:var(--g2);margin-top:8px;line-height:1.5">Licensing. Premium codecs need a third-party player to decode first. Apple doesn't hold the licenses.</p>
+      <p class="unsup-note">Licensing. Premium codecs need a third-party player to decode first. Apple doesn't hold the licenses.</p>
     </div>
   </div>
 </section>
@@ -605,7 +625,7 @@ footer .fb { font-weight:600; color:var(--g); }
 
 <footer>
   <span class="fb">Yuhasebe</span>
-  <span>Updated Mar 21, 2026 &middot; tvOS 26.3</span>
+  <span>Updated Mar 24, 2026 &middot; tvOS 26.3</span>
 </footer>
 
 <script>
