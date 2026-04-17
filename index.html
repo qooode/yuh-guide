@@ -250,7 +250,40 @@ body::after {
   text-transform:uppercase; color:var(--g2); margin-bottom:10px;
 }
 .co b { color:var(--w2); font-weight:600; }
+.co ul { padding-left:20px; margin-top:4px; }
+.co li { margin-top:6px; line-height:1.65; }
+.co li:first-child { margin-top:0; }
 .co.accent { }
+
+/* ======== COLLAPSIBLE DETAILS ======== */
+.dt {
+  margin-top:10px; border:1px solid var(--line); border-radius:8px;
+  background:rgba(255,255,255,.015); overflow:hidden;
+  transition:border-color .2s, background .2s;
+}
+.dt[open] { border-color:var(--line-h); background:var(--card-h); }
+.dt summary {
+  list-style:none; cursor:pointer;
+  padding:12px 16px; display:flex; align-items:center; gap:10px;
+  font-family:var(--mono); font-size:11px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--g);
+  transition:color .2s;
+}
+.dt summary::-webkit-details-marker { display:none; }
+.dt summary:hover { color:var(--w2); }
+.dt[open] summary { color:var(--w2); border-bottom:1px solid var(--line); }
+.dt-caret {
+  margin-left:auto; font-size:14px; color:var(--g2);
+  transition:transform .2s;
+}
+.dt[open] .dt-caret { transform:rotate(90deg); }
+.dt-body {
+  padding:14px 18px 16px; font-size:14px; color:var(--g); line-height:1.65;
+}
+.dt-body ul { padding-left:20px; margin:0; }
+.dt-body li { margin-top:6px; }
+.dt-body li:first-child { margin-top:0; }
+.dt-body b { color:var(--w2); font-weight:600; }
 
 /* ======== STEPS ======== */
 .steps { display:flex; flex-direction:column; gap:0; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
@@ -464,6 +497,42 @@ footer .fb { font-weight:600; color:var(--g); }
       </div>
 
       <div class="ins-card">
+        <div class="ins-name">Continuous Audio Connection</div>
+        <div class="ins-action"><span class="ins-action-label">Default</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">Leave Off</span></div>
+        <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Settings</span><span class="arr">&rsaquo;</span><span class="crumb">Video and Audio</span><span class="arr">&rsaquo;</span><span class="crumb">Audio Format</span><span class="arr">&rsaquo;</span><span class="crumb">HDMI Output</span></div>
+        <p class="ins-why">New in tvOS 26.4. When enabled, the Apple TV holds a constant Dolby MAT connection to your receiver or soundbar. All non-Atmos audio is packaged as 7.1.4 LPCM at 16 bit / 48 kHz with silent objects wrapped inside a Dolby MAT container, so the downstream system always sees what looks like an Atmos stream. This comes with both upsides and downsides and isn't a set-and-forget toggle &mdash; the observations below are from testing with a 7.2.4 AVR setup, a 3.0 AVR setup, and a 3.1.2 soundbar.</p>
+
+        <details class="dt">
+          <summary>What it fixes<span class="dt-caret">&rsaquo;</span></summary>
+          <div class="dt-body">
+            <ul>
+              <li>Audio dropouts and delays when switching between Stereo, 5.1, and Atmos are gone &mdash; transitions between formats are seamless.</li>
+              <li>Eliminates volume differences between Stereo, DD+, and Atmos content. This is precisely where some systems have issues with volume fluctuations due to LPCM.</li>
+              <li>No interruptions when playing Apple Music or when switching formats, e.g. if one track is in Atmos and the next isn't.</li>
+              <li>Can resolve lip-sync issues if you're using eARC.</li>
+              <li>Can resolve audio "pops" or crackling sounds on some systems.</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="dt">
+          <summary>What it breaks<span class="dt-caret">&rsaquo;</span></summary>
+          <div class="dt-body">
+            <ul>
+              <li>Most AVRs and soundbars will assume the ATV's audio output is always true Atmos, which can result in incorrect channel behaviour or altered surround processing.</li>
+              <li>Upmixing to surround sound (Dolby Surround, DTS Neural:X and others) may no longer be possible. There is no upmixing from an Atmos source, and upmixing from 7.1.4 channels may be faulty because your system assumes there is nothing to upmix.</li>
+              <li>The ATV always transmits Atmos in a compressed form, down to 16 bit instead of 24 bit. This also applies if CAC is disabled &mdash; it's an ATV limitation either way. But with CAC enabled, lossless audio (from Infuse, for example) is affected too, which can lead to a reduced dynamic range.</li>
+            </ul>
+          </div>
+        </details>
+
+        <div class="co" style="margin-top:12px">
+          <div class="co-h">Bottom line</div>
+          This isn't a feature you can set up once and just forget about, since it depends on the specific system and whether you can resolve any issues with it. Unless you need CAC for one of the reasons above, it's probably best to leave it <b>disabled</b>, as it comes with certain drawbacks. In the end it comes down to the individual system, settings, and preferences.
+        </div>
+      </div>
+
+      <div class="ins-card">
         <div class="ins-name">Audio Mode</div>
         <div class="ins-action"><span class="ins-action-label">Set to</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">Auto</span></div>
         <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Settings</span><span class="arr">&rsaquo;</span><span class="crumb">Video and Audio</span><span class="arr">&rsaquo;</span><span class="crumb">Audio Mode</span></div>
@@ -611,6 +680,7 @@ footer .fb { font-weight:600; color:var(--g); }
           <tr><td>Match Frame Rate</td><td>On</td><td>Settings &rsaquo; Video and Audio &rsaquo; Match Content</td></tr>
           <tr><td>Audio Format</td><td>Auto (LPCM)</td><td>Settings &rsaquo; Video and Audio &rsaquo; Audio Format</td></tr>
           <tr><td>Atmos</td><td>Available</td><td>Settings &rsaquo; Video and Audio &rsaquo; Audio Format</td></tr>
+          <tr><td>Continuous Audio Connection</td><td>Off (default)</td><td>Settings &rsaquo; Video and Audio &rsaquo; Audio Format &rsaquo; HDMI Output</td></tr>
           <tr><td>Audio Mode</td><td>Auto</td><td>Settings &rsaquo; Video and Audio &rsaquo; Audio Mode</td></tr>
           <tr><td>Reduce Loud Sounds</td><td>Off</td><td>Settings &rsaquo; Video and Audio &rsaquo; Reduce Loud Sounds</td></tr>
           <tr><td>TV Black Level</td><td>Limited</td><td>Your TV &rsaquo; Picture Settings</td></tr>
@@ -625,7 +695,7 @@ footer .fb { font-weight:600; color:var(--g); }
 
 <footer>
   <span class="fb">Yuhasebe</span>
-  <span>Updated Mar 24, 2026 &middot; tvOS 26.3</span>
+  <span>Updated Apr 17, 2026 &middot; tvOS 26.4</span>
 </footer>
 
 <script>
