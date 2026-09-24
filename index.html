@@ -42,10 +42,10 @@ button { font:inherit; color:inherit; background:none; border:none; cursor:point
 .top { position:sticky; top:0; z-index:20; background:rgba(0,0,0,.7); backdrop-filter:saturate(160%) blur(18px); -webkit-backdrop-filter:saturate(160%) blur(18px); border-bottom:1px solid var(--line); }
 .top .wrap { display:flex; align-items:center; gap:32px; height:56px; }
 .brand { display:flex; align-items:center; gap:10px; font-size:15px; font-weight:600; letter-spacing:-.02em; color:var(--tx); text-decoration:none; flex-shrink:0; }
-.brand i { width:9px; height:9px; border-radius:50%; background:var(--tx); }
+.brand i { width:9px; height:9px; border-radius:2px; background:var(--tx); }
 .top nav { position:relative; display:flex; gap:2px; margin-left:auto; overflow-x:auto; scrollbar-width:none; }
 .top nav::-webkit-scrollbar { display:none; }
-.top nav a { font-size:13px; color:var(--tx3); text-decoration:none; padding:6px 12px; border-radius:99px; white-space:nowrap; transition:color .2s, background .2s; }
+.top nav a { font-size:13px; color:var(--tx3); text-decoration:none; padding:6px 12px; border-radius:6px; white-space:nowrap; transition:color .2s, background .2s; }
 .top nav a:hover { color:var(--tx); }
 .top nav a.on { color:var(--tx); background:var(--s3); }
 
@@ -89,7 +89,7 @@ h1 { font-size:clamp(48px,9vw,124px); line-height:.9; letter-spacing:-.058em; fo
 h1 span { display:block; color:#5c5c5c; }
 .lede { margin:36px auto 0; max-width:560px; font-size:20px; line-height:1.5; color:var(--tx2); letter-spacing:-.01em; }
 .cta { margin-top:40px; display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }
-.btn { display:inline-flex; align-items:center; gap:10px; height:46px; padding:0 22px; border-radius:99px; font-size:15px; font-weight:500; text-decoration:none; transition:background .2s, color .2s, border-color .2s, transform .2s; }
+.btn { display:inline-flex; align-items:center; gap:10px; height:46px; padding:0 22px; border-radius:8px; font-size:15px; font-weight:500; text-decoration:none; transition:background .2s, color .2s, border-color .2s, transform .2s; }
 .btn:active { transform:scale(.97); }
 .btn-w { background:var(--tx); color:#000; }
 .btn-w:hover { background:#fff; }
@@ -126,7 +126,7 @@ h2 .n { color:#2e2e2e; margin-right:.22em; font-variant-numeric:tabular-nums; }
 .crumbs li { font-family:var(--mono); font-size:12.5px; line-height:1; color:var(--tx2); padding:8px 11px; border-radius:8px; border:1px solid var(--line2); background:var(--s1); white-space:nowrap; }
 .crumbs li + li { margin-left:22px; position:relative; }
 .crumbs li + li::before { content:'›'; position:absolute; left:-15px; top:50%; transform:translateY(-54%); font-family:var(--sans); font-size:15px; color:#595959; }
-.crumbs:not(.plain) li:last-child { background:var(--tx); color:#000; border-color:var(--tx); font-weight:500; }
+.crumbs:not(.plain) li:last-child { color:var(--tx); border-color:var(--tx); font-weight:500; }
 
 /* ═══════ Steps ═══════ */
 .guide { margin-top:56px; }
@@ -137,23 +137,29 @@ h2 .n { color:#2e2e2e; margin-right:.22em; font-variant-numeric:tabular-nums; }
 .step h3 { font-size:30px; font-weight:600; color:var(--tx); letter-spacing:-.03em; line-height:1.1; }
 .step-body { min-width:0; max-width:720px; }
 
-/* the step card: where / your setup / set to / why */
-.spec { border-top:1px solid var(--line2); }
-.spec > div { display:grid; grid-template-columns:88px minmax(0,1fr); gap:16px; padding:16px 0; border-bottom:1px solid var(--line); }
-.spec dt { font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--tx3); padding-top:8px; }
-.spec dd { min-width:0; font-size:15.5px; line-height:1.65; color:var(--tx2); }
-.spec dd > p + p { margin-top:10px; }
-.spec .set dt { padding-top:9px; }
-.spec .set dd { font-size:24px; line-height:1.25; letter-spacing:-.025em; font-weight:600; color:var(--tx); }
-.spec .why dt { padding-top:4px; }
+/* the step card: numbered actions (go to / your setup / set to), then why */
+.todo { border:1px solid var(--line2); border-radius:16px; background:var(--s1); overflow:hidden; }
+.todo-r { display:grid; grid-template-columns:26px 96px minmax(0,1fr); gap:16px; align-items:center; padding:18px 22px; }
+.todo-r + .todo-r { border-top:1px solid var(--line); }
+.todo-n { width:26px; height:26px; border-radius:6px; border:1px solid var(--line2); display:grid; place-items:center; font-family:var(--mono); font-size:11.5px; color:var(--tx2); }
+.todo-k { font-size:14px; font-weight:500; color:var(--tx); line-height:1.3; }
+.todo-v { min-width:0; }
+.todo-r.set { background:#111; }
+.set .todo-n { background:var(--tx); border-color:var(--tx); color:#000; font-weight:500; }
+.pick { display:inline-block; padding:7px 12px; border-radius:6px; background:var(--tx); color:#000; font-size:16px; font-weight:600; letter-spacing:-.01em; line-height:1.3; }
+.pick .dim { color:#8a8a8a !important; }
+.why { margin-top:22px; padding:0 2px; font-size:15.5px; line-height:1.65; color:var(--tx2); }
+.why .label { display:block; margin-bottom:8px; }
+.why p + p { margin-top:10px; }
 .dim { color:var(--tx3) !important; }
-.seg { display:inline-flex; padding:4px; gap:2px; border-radius:99px; background:var(--s2); border:1px solid var(--line); flex-wrap:wrap; }
-.seg button { padding:7px 15px; border-radius:99px; font-size:13.5px; font-weight:500; color:var(--tx3); transition:background .25s, color .25s; white-space:nowrap; }
+.seg { display:inline-flex; padding:4px; gap:2px; border-radius:8px; background:var(--s2); border:1px solid var(--line); flex-wrap:wrap; }
+.seg button { padding:7px 15px; border-radius:5px; font-size:13.5px; font-weight:500; color:var(--tx3); transition:background .25s, color .25s; white-space:nowrap; }
 .seg button:hover { color:var(--tx); }
 .seg button.on { background:var(--tx); color:#000; }
 .seg-hint { display:block; margin-top:8px; font-size:13px; color:var(--tx3); }
-.aka { display:flex; flex-wrap:wrap; gap:6px; padding-top:2px; }
-.aka span { font-family:var(--mono); font-size:12px; color:var(--tx2); padding:5px 10px; border-radius:99px; border:1px solid var(--line2); }
+.aka { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin-top:12px; }
+.aka em { font-style:normal; font-size:12.5px; color:var(--tx3); margin-right:4px; }
+.aka span { font-family:var(--mono); font-size:12px; color:var(--tx2); padding:5px 9px; border-radius:5px; border:1px solid var(--line2); }
 
 .callout { margin-top:24px; padding:18px 20px; border-radius:14px; background:var(--s1); border:1px solid var(--line); font-size:14.5px; line-height:1.6; }
 .callout b { display:block; margin-bottom:4px; font-size:15px; }
@@ -198,7 +204,7 @@ details[open] summary i::after { transform:rotate(0); }
 .ot-gap.on { border-color:var(--tx); border-style:solid; background:#000; }
 .ot-ph { position:absolute; top:-9px; bottom:-9px; width:2px; margin-left:-1px; border-radius:2px; background:var(--tx); box-shadow:0 0 0 1px #000; left:0; pointer-events:none; }
 .ot-now { grid-column:2; display:flex; align-items:center; gap:8px; min-height:18px; font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--tx2); }
-.ot-now::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--tx); }
+.ot-now::before { content:''; width:6px; height:6px; border-radius:1px; background:var(--tx); }
 
 /* chroma grids */
 .cg { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
@@ -219,7 +225,7 @@ details[open] summary i::after { transform:rotate(0); }
 .fr-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:16px; }
 .fr-head b { display:block; font-size:15px; font-weight:500; }
 .fr-head small { display:block; margin-top:2px; font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--tx3); }
-.fr-head em { font-style:normal; flex-shrink:0; font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; padding:5px 10px; border-radius:99px; border:1px solid var(--line2); color:var(--tx2); }
+.fr-head em { font-style:normal; flex-shrink:0; font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; padding:5px 10px; border-radius:5px; border:1px solid var(--line2); color:var(--tx2); }
 .fr-lane.good .fr-head em { background:var(--tx); color:#000; border-color:var(--tx); }
 .fr-track { position:relative; height:26px; margin-bottom:14px; }
 .fr-track::before { content:''; position:absolute; left:0; right:0; top:50%; height:1px; background:var(--line2); }
@@ -245,8 +251,8 @@ details[open] summary i::after { transform:rotate(0); }
 .ramp.good { outline:1px solid rgba(255,255,255,.55); outline-offset:3px; }
 
 /* buffer */
-.buf { position:relative; height:10px; border-radius:99px; background:var(--s3); overflow:hidden; }
-.buf i { position:absolute; top:0; bottom:0; left:0; border-radius:99px; }
+.buf { position:relative; height:10px; border-radius:3px; background:var(--s3); overflow:hidden; }
+.buf i { position:absolute; top:0; bottom:0; left:0; border-radius:3px; }
 .buf .b1 { width:78%; background:repeating-linear-gradient(135deg, #5a5a5a 0 5px, #3b3b3b 5px 10px); }
 .buf .b0 { width:32%; background:var(--tx); }
 .buf-k { margin-top:12px; display:flex; gap:18px; flex-wrap:wrap; font-size:12.5px; color:var(--tx3); }
@@ -285,7 +291,7 @@ details[open] summary i::after { transform:rotate(0); }
 .stack .bl { height:64px; background:#e8e8e8; color:#000; }
 .stack .bl.dvbl { background:#bdbdbd; }
 .dv-c p { font-size:14.5px; line-height:1.6; flex:1; }
-.tag { align-self:flex-start; margin-top:22px; font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; padding:6px 12px; border-radius:99px; border:1px solid var(--line2); color:var(--tx2); }
+.tag { align-self:flex-start; margin-top:22px; font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; padding:6px 12px; border-radius:5px; border:1px solid var(--line2); color:var(--tx2); }
 .tag.w { background:var(--tx); color:#000; border-color:var(--tx); }
 
 /* odin formats */
@@ -351,8 +357,13 @@ footer .label { text-align:right; line-height:1.9; }
   .sh .label { margin-bottom:20px; }
   .sh p { margin-top:24px; }
   .guide { margin-top:40px; }
-  .spec > div { grid-template-columns:minmax(0,1fr); gap:10px; padding:14px 0; }
-  .spec dt, .spec .set dt, .spec .why dt { padding-top:0; }
+  .todo-r { grid-template-columns:26px minmax(0,1fr); gap:10px 14px; padding:16px; }
+  .todo-k { grid-column:2; }
+  .todo-v { grid-column:2; }
+  .todo-n { grid-row:span 2; align-self:start; }
+  .pick { font-size:15.5px; }
+  .todo-v .seg { display:flex; flex-wrap:nowrap; width:100%; border-radius:8px; }
+  .todo-v .seg button { flex:1; min-width:0; white-space:normal; line-height:1.25; padding:9px 8px; border-radius:5px; font-size:13px; }
   .notes, .fm { grid-template-columns:minmax(0,1fr); }
   .fm { margin-top:72px; }
   .dv-c { display:flex; }
@@ -459,14 +470,12 @@ footer .label { text-align:right; line-height:1.9; }
       <article class="step" id="s-format" data-k="format">
         <div class="step-head"><span class="step-n">01 / 15</span><h3>Format</h3></div>
         <div class="step-body">
-        <dl class="spec">
-          <div><dt>Where</dt><dd><ol class="crumbs"><li>Settings</li><li>Video and Audio</li><li>Format</li></ol></dd></div>
-          <div class="set"><dt>Set to</dt><dd>4K SDR, 60 Hz</dd></div>
-          <div class="why"><dt>Why</dt><dd>
-            <p>Keeps the home screen in SDR so your TV isn't stuck in HDR mode all the time. When you play HDR or Dolby Vision content, the Apple TV switches on its own. A brief black screen means it's working. 60 Hz keeps menus smooth.</p>
-            <p class="dim">Older 1080p TV? Choose 1080p instead.</p>
-          </dd></div>
-        </dl>
+        <div class="todo">
+            <div class="todo-r"><span class="todo-n">1</span><span class="todo-k">Go to</span><div class="todo-v"><ol class="crumbs"><li>Settings</li><li>Video and Audio</li><li>Format</li></ol></div></div>
+            <div class="todo-r set"><span class="todo-n">2</span><span class="todo-k">Set to</span><div class="todo-v"><span class="pick">4K SDR, 60 Hz</span></div></div>
+          </div>
+          <div class="why"><span class="label">Why</span><p>Keeps the home screen in SDR so your TV isn't stuck in HDR mode all the time. When you play HDR or Dolby Vision content, the Apple TV switches on its own. A brief black screen means it's working. 60 Hz keeps menus smooth.</p>
+            <p class="dim">Older 1080p TV? Choose 1080p instead.</p></div>
         <div class="viz" data-ot>
           <div class="ot">
             <span class="ot-k">You're</span>
@@ -489,32 +498,26 @@ footer .label { text-align:right; line-height:1.9; }
       <article class="step" id="s-hdmi" data-k="hdmi">
         <div class="step-head"><span class="step-n">02 / 15</span><h3>HDMI Output</h3></div>
         <div class="step-body">
-        <dl class="spec">
-          <div><dt>Where</dt><dd><ol class="crumbs"><li>Settings</li><li>Video and Audio</li><li>HDMI Output</li></ol></dd></div>
-          <div><dt>Your model</dt><dd>
-            <div class="seg" data-key="gen"><button type="button" data-val="12">1st / 2nd gen</button><button type="button" data-val="3">3rd gen (2022)</button></div>
-            <span class="seg-hint">Not sure? Settings › General › About shows the model.</span>
-          </dd></div>
-          <div class="set"><dt>Set to</dt><dd><span data-when="gen=12">RGB High</span><span data-when="gen=3">YCbCr</span></dd></div>
-          <div class="why"><dt>Why</dt><dd>
-            <p data-when="gen=12">The 1st and 2nd gen models have a known bug that adds a green tint when using YCbCr. RGB High avoids the problem completely.</p>
-            <p data-when="gen=3">The green tint bug was fixed in the latest tvOS for the 3rd gen, so YCbCr now delivers the most accurate colors. Pair it with 4:4:4 chroma in the next step.</p>
-          </dd></div>
-        </dl>
+        <div class="todo">
+            <div class="todo-r"><span class="todo-n">1</span><span class="todo-k">Go to</span><div class="todo-v"><ol class="crumbs"><li>Settings</li><li>Video and Audio</li><li>HDMI Output</li></ol></div></div>
+            <div class="todo-r"><span class="todo-n">2</span><span class="todo-k">Your model</span><div class="todo-v"><div class="seg" data-key="gen"><button type="button" data-val="12">1st / 2nd gen</button><button type="button" data-val="3">3rd gen (2022)</button></div>
+            <span class="seg-hint">Not sure? Settings › General › About shows the model.</span></div></div>
+            <div class="todo-r set"><span class="todo-n">3</span><span class="todo-k">Set to</span><div class="todo-v"><span class="pick"><span data-when="gen=12">RGB High</span><span data-when="gen=3">YCbCr</span></span></div></div>
+          </div>
+          <div class="why"><span class="label">Why</span><p data-when="gen=12">The 1st and 2nd gen models have a known bug that adds a green tint when using YCbCr. RGB High avoids the problem completely.</p>
+            <p data-when="gen=3">The green tint bug was fixed in the latest tvOS for the 3rd gen, so YCbCr now delivers the most accurate colors. Pair it with 4:4:4 chroma in the next step.</p></div>
         </div>
       </article>
 
       <article class="step" id="s-chroma" data-k="chroma">
         <div class="step-head"><span class="step-n">03 / 15</span><h3>Chroma</h3></div>
         <div class="step-body">
-        <dl class="spec">
-          <div><dt>Where</dt><dd><ol class="crumbs"><li>Settings</li><li>Video and Audio</li><li>Chroma</li></ol></dd></div>
-          <div class="set"><dt>Set to</dt><dd><span data-when="gen=3">4:4:4</span><span data-when="gen=12" class="dim">Skip this step</span></dd></div>
-          <div class="why"><dt>Why</dt><dd>
-            <p data-when="gen=12">Chroma only appears with YCbCr. On a 1st or 2nd gen with RGB High, there's nothing to change here.</p>
-            <p>Controls how much color detail gets sent to your TV. 4:4:4 sends a color sample for every pixel, with no compression, for the most accurate picture.</p>
-          </dd></div>
-        </dl>
+        <div class="todo">
+            <div class="todo-r"><span class="todo-n">1</span><span class="todo-k">Go to</span><div class="todo-v"><ol class="crumbs"><li>Settings</li><li>Video and Audio</li><li>Chroma</li></ol></div></div>
+            <div class="todo-r set"><span class="todo-n">2</span><span class="todo-k">Set to</span><div class="todo-v"><span class="pick"><span data-when="gen=3">4:4:4</span><span data-when="gen=12" class="dim">Skip this step</span></span></div></div>
+          </div>
+          <div class="why"><span class="label">Why</span><p data-when="gen=12">Chroma only appears with YCbCr. On a 1st or 2nd gen with RGB High, there's nothing to change here.</p>
+            <p>Controls how much color detail gets sent to your TV. 4:4:4 sends a color sample for every pixel, with no compression, for the most accurate picture.</p></div>
         <div class="viz">
           <div class="cg">
             <div><div class="cg-grid" data-chroma="444"></div><b>4:4:4</b><span>Every pixel keeps its own color</span></div>
@@ -527,26 +530,22 @@ footer .label { text-align:right; line-height:1.9; }
       <article class="step" id="s-mdr" data-k="mdr">
         <div class="step-head"><span class="step-n">04 / 15</span><h3>Match Dynamic Range</h3></div>
         <div class="step-body">
-        <dl class="spec">
-          <div><dt>Where</dt><dd><ol class="crumbs"><li>Settings</li><li>Video and Audio</li><li>Match Content</li><li>Match Dynamic Range</li></ol></dd></div>
-          <div class="set"><dt>Set to</dt><dd>On</dd></div>
-          <div class="why"><dt>Why</dt><dd>
-            <p>Your Apple TV switches between SDR, HDR and Dolby Vision to match what you're watching. Without it, your TV can show SDR content in HDR mode, which looks washed out, or the other way around.</p>
-          </dd></div>
-        </dl>
+        <div class="todo">
+            <div class="todo-r"><span class="todo-n">1</span><span class="todo-k">Go to</span><div class="todo-v"><ol class="crumbs"><li>Settings</li><li>Video and Audio</li><li>Match Content</li><li>Match Dynamic Range</li></ol></div></div>
+            <div class="todo-r set"><span class="todo-n">2</span><span class="todo-k">Set to</span><div class="todo-v"><span class="pick">On</span></div></div>
+          </div>
+          <div class="why"><span class="label">Why</span><p>Your Apple TV switches between SDR, HDR and Dolby Vision to match what you're watching. Without it, your TV can show SDR content in HDR mode, which looks washed out, or the other way around.</p></div>
         </div>
       </article>
 
       <article class="step" id="s-mfr" data-k="mfr">
         <div class="step-head"><span class="step-n">05 / 15</span><h3>Match Frame Rate</h3></div>
         <div class="step-body">
-        <dl class="spec">
-          <div><dt>Where</dt><dd><ol class="crumbs"><li>Settings</li><li>Video and Audio</li><li>Match Content</li><li>Match Frame Rate</li></ol></dd></div>
-          <div class="set"><dt>Set to</dt><dd>On</dd></div>
-          <div class="why"><dt>Why</dt><dd>
-            <p>Films are made at 24 pictures per second. If the Apple TV always sends 60 Hz, those pictures can't be spread evenly, so camera pans look jerky. That's called judder. With this on, the Apple TV switches to the film's own rate.</p>
-          </dd></div>
-        </dl>
+        <div class="todo">
+            <div class="todo-r"><span class="todo-n">1</span><span class="todo-k">Go to</span><div class="todo-v"><ol class="crumbs"><li>Settings</li><li>Video and Audio</li><li>Match Content</li><li>Match Frame Rate</li></ol></div></div>
+            <div class="todo-r set"><span class="todo-n">2</span><span class="todo-k">Set to</span><div class="todo-v"><span class="pick">On</span></div></div>
+          </div>
+          <div class="why"><span class="label">Why</span><p>Films are made at 24 pictures per second. If the Apple TV always sends 60 Hz, those pictures can't be spread evenly, so camera pans look jerky. That's called judder. With this on, the Apple TV switches to the film's own rate.</p></div>
 
         <div class="viz" data-fr>
           <div class="fr-math">
@@ -631,43 +630,35 @@ footer .label { text-align:right; line-height:1.9; }
       <article class="step" id="s-afmt" data-k="afmt">
         <div class="step-head"><span class="step-n">06 / 15</span><h3>Audio Format</h3></div>
         <div class="step-body">
-        <dl class="spec">
-          <div><dt>Where</dt><dd><ol class="crumbs"><li>Settings</li><li>Video and Audio</li><li>Audio Format</li><li>Change Format</li></ol></dd></div>
-          <div class="set"><dt>Set to</dt><dd>Off (Auto)</dd></div>
-          <div class="why"><dt>Why</dt><dd>
-            <p>With Change Format off, the Apple TV picks the format automatically and keeps your audio as uncompressed LPCM, the highest quality it can output.</p>
-          </dd></div>
-        </dl>
+        <div class="todo">
+            <div class="todo-r"><span class="todo-n">1</span><span class="todo-k">Go to</span><div class="todo-v"><ol class="crumbs"><li>Settings</li><li>Video and Audio</li><li>Audio Format</li><li>Change Format</li></ol></div></div>
+            <div class="todo-r set"><span class="todo-n">2</span><span class="todo-k">Set to</span><div class="todo-v"><span class="pick">Off (Auto)</span></div></div>
+          </div>
+          <div class="why"><span class="label">Why</span><p>With Change Format off, the Apple TV picks the format automatically and keeps your audio as uncompressed LPCM, the highest quality it can output.</p></div>
         </div>
       </article>
 
       <article class="step" id="s-atmos" data-k="atmos">
         <div class="step-head"><span class="step-n">07 / 15</span><h3>Atmos</h3></div>
         <div class="step-body">
-        <dl class="spec">
-          <div><dt>Where</dt><dd><ol class="crumbs"><li>Settings</li><li>Video and Audio</li><li>Audio Format</li><li><span data-when="atmos=y">Atmos Available</span><span data-when="atmos=n">Immersive Audio</span></li></ol></dd></div>
-          <div><dt>Your speakers</dt><dd>
-            <div class="seg" data-key="atmos"><button type="button" data-val="y">Atmos soundbar / AVR</button><button type="button" data-val="n">No Atmos</button></div>
-          </dd></div>
-          <div class="set"><dt>Set to</dt><dd><span data-when="atmos=y">On</span><span data-when="atmos=n">Off</span></dd></div>
-          <div class="why"><dt>Why</dt><dd>
-            <p data-when="atmos=y">Atmos Available tells the Apple TV your system can play Atmos, so it sends it.</p>
-            <p data-when="atmos=n">Without Atmos speakers, turn off Immersive Audio so the Apple TV doesn't process sound for speakers you don't have.</p>
-          </dd></div>
-        </dl>
+        <div class="todo">
+            <div class="todo-r"><span class="todo-n">1</span><span class="todo-k">Go to</span><div class="todo-v"><ol class="crumbs"><li>Settings</li><li>Video and Audio</li><li>Audio Format</li><li><span data-when="atmos=y">Atmos Available</span><span data-when="atmos=n">Immersive Audio</span></li></ol></div></div>
+            <div class="todo-r"><span class="todo-n">2</span><span class="todo-k">Your speakers</span><div class="todo-v"><div class="seg" data-key="atmos"><button type="button" data-val="y">Atmos soundbar / AVR</button><button type="button" data-val="n">No Atmos</button></div></div></div>
+            <div class="todo-r set"><span class="todo-n">3</span><span class="todo-k">Set to</span><div class="todo-v"><span class="pick"><span data-when="atmos=y">On</span><span data-when="atmos=n">Off</span></span></div></div>
+          </div>
+          <div class="why"><span class="label">Why</span><p data-when="atmos=y">Atmos Available tells the Apple TV your system can play Atmos, so it sends it.</p>
+            <p data-when="atmos=n">Without Atmos speakers, turn off Immersive Audio so the Apple TV doesn't process sound for speakers you don't have.</p></div>
         </div>
       </article>
 
       <article class="step" id="s-cac" data-k="cac">
         <div class="step-head"><span class="step-n">08 / 15</span><h3>Continuous Audio Connection</h3></div>
         <div class="step-body">
-        <dl class="spec">
-          <div><dt>Where</dt><dd><ol class="crumbs"><li>Settings</li><li>Video and Audio</li><li>Audio Format</li><li>HDMI Output</li></ol></dd></div>
-          <div class="set"><dt>Set to</dt><dd>Off</dd></div>
-          <div class="why"><dt>Why</dt><dd>
-            <p>New in tvOS 26.4. When on, the Apple TV holds a constant Dolby MAT connection to your receiver or soundbar. Non-Atmos audio is packaged as 7.1.4 LPCM at 16-bit / 48 kHz with silent objects, so your system always sees what looks like an Atmos stream. It fixes some problems and causes others.</p>
-          </dd></div>
-        </dl>
+        <div class="todo">
+            <div class="todo-r"><span class="todo-n">1</span><span class="todo-k">Go to</span><div class="todo-v"><ol class="crumbs"><li>Settings</li><li>Video and Audio</li><li>Audio Format</li><li>HDMI Output</li></ol></div></div>
+            <div class="todo-r set"><span class="todo-n">2</span><span class="todo-k">Set to</span><div class="todo-v"><span class="pick">Off</span></div></div>
+          </div>
+          <div class="why"><span class="label">Why</span><p>New in tvOS 26.4. When on, the Apple TV holds a constant Dolby MAT connection to your receiver or soundbar. Non-Atmos audio is packaged as 7.1.4 LPCM at 16-bit / 48 kHz with silent objects, so your system always sees what looks like an Atmos stream. It fixes some problems and causes others.</p></div>
         <details>
           <summary>What it fixes<i></i></summary>
           <div class="db plus"><ul>
@@ -694,22 +685,22 @@ footer .label { text-align:right; line-height:1.9; }
       <article class="step" id="s-amode" data-k="amode">
         <div class="step-head"><span class="step-n">09 / 15</span><h3>Audio Mode</h3></div>
         <div class="step-body">
-        <dl class="spec">
-          <div><dt>Where</dt><dd><ol class="crumbs"><li>Settings</li><li>Video and Audio</li><li>Audio Mode</li></ol></dd></div>
-          <div class="set"><dt>Set to</dt><dd>Auto</dd></div>
-          <div class="why"><dt>Why</dt><dd><p>Lets the Apple TV handle audio routing on its own. Nothing else to do here.</p></dd></div>
-        </dl>
+        <div class="todo">
+            <div class="todo-r"><span class="todo-n">1</span><span class="todo-k">Go to</span><div class="todo-v"><ol class="crumbs"><li>Settings</li><li>Video and Audio</li><li>Audio Mode</li></ol></div></div>
+            <div class="todo-r set"><span class="todo-n">2</span><span class="todo-k">Set to</span><div class="todo-v"><span class="pick">Auto</span></div></div>
+          </div>
+          <div class="why"><span class="label">Why</span><p>Lets the Apple TV handle audio routing on its own. Nothing else to do here.</p></div>
         </div>
       </article>
 
       <article class="step" id="s-rls" data-k="rls">
         <div class="step-head"><span class="step-n">10 / 15</span><h3>Reduce Loud Sounds</h3></div>
         <div class="step-body">
-        <dl class="spec">
-          <div><dt>Where</dt><dd><ol class="crumbs"><li>Settings</li><li>Video and Audio</li><li>Reduce Loud Sounds</li></ol></dd></div>
-          <div class="set"><dt>Set to</dt><dd>Off</dd></div>
-          <div class="why"><dt>Why</dt><dd><p>A matter of taste, but off keeps the original dynamic range of films and shows. Quiet parts stay quiet, loud parts hit properly.</p></dd></div>
-        </dl>
+        <div class="todo">
+            <div class="todo-r"><span class="todo-n">1</span><span class="todo-k">Go to</span><div class="todo-v"><ol class="crumbs"><li>Settings</li><li>Video and Audio</li><li>Reduce Loud Sounds</li></ol></div></div>
+            <div class="todo-r set"><span class="todo-n">2</span><span class="todo-k">Set to</span><div class="todo-v"><span class="pick">Off</span></div></div>
+          </div>
+          <div class="why"><span class="label">Why</span><p>A matter of taste, but off keeps the original dynamic range of films and shows. Quiet parts stay quiet, loud parts hit properly.</p></div>
         </div>
       </article>
     </div>
@@ -751,12 +742,11 @@ footer .label { text-align:right; line-height:1.9; }
       <article class="step" id="s-black" data-k="black">
         <div class="step-head"><span class="step-n">11 / 15</span><h3>HDMI Black Level</h3></div>
         <div class="step-body">
-        <dl class="spec">
-          <div><dt>Where</dt><dd><ol class="crumbs"><li>TV</li><li>Picture Settings</li><li>HDMI Black Level</li></ol></dd></div>
-          <div><dt>Also called</dt><dd><div class="aka"><span>Black Level</span><span>RGB Range</span><span>HDMI Range</span></div></dd></div>
-          <div class="set"><dt>Set to</dt><dd>Limited</dd></div>
-          <div class="why"><dt>Why</dt><dd><p>Many TVs default to Auto, and Auto often gets it wrong. Streaming and Blu-ray all use limited range, so set the TV to match. Full is only meant for using the TV as a PC monitor.</p></dd></div>
-        </dl>
+        <div class="todo">
+            <div class="todo-r"><span class="todo-n">1</span><span class="todo-k">Go to</span><div class="todo-v"><ol class="crumbs"><li>TV</li><li>Picture Settings</li><li>HDMI Black Level</li></ol><div class="aka"><em>Also called</em><span>Black Level</span><span>RGB Range</span><span>HDMI Range</span></div></div></div>
+            <div class="todo-r set"><span class="todo-n">2</span><span class="todo-k">Set to</span><div class="todo-v"><span class="pick">Limited</span></div></div>
+          </div>
+          <div class="why"><span class="label">Why</span><p>Many TVs default to Auto, and Auto often gets it wrong. Streaming and Blu-ray all use limited range, so set the TV to match. Full is only meant for using the TV as a PC monitor.</p></div>
         <div class="viz">
           <div class="ramps">
             <div><div class="ramp-l"><span>Mismatched · crushed</span><em>Dark detail lost</em></div><div class="ramp" data-ramp="crush"></div></div>
@@ -770,12 +760,11 @@ footer .label { text-align:right; line-height:1.9; }
       <article class="step" id="s-signal" data-k="signal">
         <div class="step-head"><span class="step-n">12 / 15</span><h3>HDMI Signal Format</h3></div>
         <div class="step-body">
-        <dl class="spec">
-          <div><dt>Where</dt><dd><ol class="crumbs"><li>TV</li><li>External Input Settings</li><li>HDMI Signal Format</li></ol></dd></div>
-          <div><dt>Also called</dt><dd><div class="aka"><span>Enhanced Plus</span><span>HDMI Deep Color</span><span>Input Signal Plus</span></div></dd></div>
-          <div class="set"><dt>Set to</dt><dd>Enhanced</dd></div>
-          <div class="why"><dt>Why</dt><dd><p>Lets your TV accept the full HDR and Dolby Vision signal. Without it, you can lose shadow detail, get a washed-out picture, or lose HDR entirely.</p></dd></div>
-        </dl>
+        <div class="todo">
+            <div class="todo-r"><span class="todo-n">1</span><span class="todo-k">Go to</span><div class="todo-v"><ol class="crumbs"><li>TV</li><li>External Input Settings</li><li>HDMI Signal Format</li></ol><div class="aka"><em>Also called</em><span>Enhanced Plus</span><span>HDMI Deep Color</span><span>Input Signal Plus</span></div></div></div>
+            <div class="todo-r set"><span class="todo-n">2</span><span class="todo-k">Set to</span><div class="todo-v"><span class="pick">Enhanced</span></div></div>
+          </div>
+          <div class="why"><span class="label">Why</span><p>Lets your TV accept the full HDR and Dolby Vision signal. Without it, you can lose shadow detail, get a washed-out picture, or lose HDR entirely.</p></div>
         <div class="callout"><b>Soundbar or receiver in between?</b>Check whether it has its own HDMI signal setting, and set that to Enhanced too.</div>
         </div>
       </article>
@@ -783,12 +772,11 @@ footer .label { text-align:right; line-height:1.9; }
       <article class="step" id="s-pulldown" data-k="pulldown">
         <div class="step-head"><span class="step-n">13 / 15</span><h3>Pulldown / Telecine</h3></div>
         <div class="step-body">
-        <dl class="spec">
-          <div><dt>Where</dt><dd><ol class="crumbs"><li>TV</li><li>Picture Settings</li><li>Motion</li></ol></dd></div>
-          <div><dt>Also called</dt><dd><div class="aka"><span>Sony: CineMotion</span><span>LG: Real Cinema</span><span>Film Mode</span></div></dd></div>
-          <div class="set"><dt>Set to</dt><dd>Off</dd></div>
-          <div class="why"><dt>Why</dt><dd><p>With Match Frame Rate on (step 05), the Apple TV already sends the right frame rate. If your TV converts it again, the two conflict and you get stutter or dropped frames.</p></dd></div>
-        </dl>
+        <div class="todo">
+            <div class="todo-r"><span class="todo-n">1</span><span class="todo-k">Go to</span><div class="todo-v"><ol class="crumbs"><li>TV</li><li>Picture Settings</li><li>Motion</li></ol><div class="aka"><em>Also called</em><span>Sony: CineMotion</span><span>LG: Real Cinema</span><span>Film Mode</span></div></div></div>
+            <div class="todo-r set"><span class="todo-n">2</span><span class="todo-k">Set to</span><div class="todo-v"><span class="pick">Off</span></div></div>
+          </div>
+          <div class="why"><span class="label">Why</span><p>With Match Frame Rate on (step 05), the Apple TV already sends the right frame rate. If your TV converts it again, the two conflict and you get stutter or dropped frames.</p></div>
         </div>
       </article>
     </div>
@@ -850,11 +838,11 @@ footer .label { text-align:right; line-height:1.9; }
       <article class="step" id="s-cache" data-k="cache">
         <div class="step-head"><span class="step-n">14 / 15</span><h3>Cache Mode</h3></div>
         <div class="step-body">
-        <dl class="spec">
-          <div><dt>Where</dt><dd><ol class="crumbs"><li>Odin</li><li>Settings</li><li>Video Player</li><li>Cache Mode</li></ol></dd></div>
-          <div class="set"><dt>Set to</dt><dd>Memory</dd></div>
-          <div class="why"><dt>Why</dt><dd><p>Odin buffers the stream ahead of time in memory instead of loading each chunk only when it's needed. That prevents stuttering and buffering interruptions during playback.</p></dd></div>
-        </dl>
+        <div class="todo">
+            <div class="todo-r"><span class="todo-n">1</span><span class="todo-k">Go to</span><div class="todo-v"><ol class="crumbs"><li>Odin</li><li>Settings</li><li>Video Player</li><li>Cache Mode</li></ol></div></div>
+            <div class="todo-r set"><span class="todo-n">2</span><span class="todo-k">Set to</span><div class="todo-v"><span class="pick">Memory</span></div></div>
+          </div>
+          <div class="why"><span class="label">Why</span><p>Odin buffers the stream ahead of time in memory instead of loading each chunk only when it's needed. That prevents stuttering and buffering interruptions during playback.</p></div>
         <div class="viz">
           <div class="buf"><i class="b1"></i><i class="b0"></i></div>
           <div class="buf-k"><span><i style="background:var(--tx)"></i>Watched</span><span><i style="background:repeating-linear-gradient(135deg,#5a5a5a 0 3px,#3b3b3b 3px 6px)"></i>Already loaded in memory</span></div>
@@ -865,17 +853,13 @@ footer .label { text-align:right; line-height:1.9; }
       <article class="step" id="s-odr" data-k="odr">
         <div class="step-head"><span class="step-n">15 / 15</span><h3>Dynamic Range</h3></div>
         <div class="step-body">
-        <dl class="spec">
-          <div><dt>Where</dt><dd><ol class="crumbs"><li>Odin</li><li>Settings</li><li>Video Player</li><li>Dynamic Range</li></ol></dd></div>
-          <div><dt>Your TV</dt><dd>
-            <div class="seg" data-key="dv"><button type="button" data-val="y">Dolby Vision + HDR10</button><button type="button" data-val="n">HDR10 / HDR10+ only</button></div>
-          </dd></div>
-          <div class="set"><dt>Set to</dt><dd><span data-when="dv=y">ST 2094-10</span><span data-when="dv=n">ST 2094-40</span></dd></div>
-          <div class="why"><dt>Why</dt><dd>
-            <p data-when="dv=y">ST 2094-10 is Dolby Vision's dynamic metadata. Use it if your display supports Dolby Vision and HDR10.</p>
-            <p data-when="dv=n">ST 2094-40 is HDR10+ dynamic metadata. Use it if your display only supports HDR10 or HDR10+.</p>
-          </dd></div>
-        </dl>
+        <div class="todo">
+            <div class="todo-r"><span class="todo-n">1</span><span class="todo-k">Go to</span><div class="todo-v"><ol class="crumbs"><li>Odin</li><li>Settings</li><li>Video Player</li><li>Dynamic Range</li></ol></div></div>
+            <div class="todo-r"><span class="todo-n">2</span><span class="todo-k">Your TV</span><div class="todo-v"><div class="seg" data-key="dv"><button type="button" data-val="y">Dolby Vision + HDR10</button><button type="button" data-val="n">HDR10 / HDR10+ only</button></div></div></div>
+            <div class="todo-r set"><span class="todo-n">3</span><span class="todo-k">Set to</span><div class="todo-v"><span class="pick"><span data-when="dv=y">ST 2094-10</span><span data-when="dv=n">ST 2094-40</span></span></div></div>
+          </div>
+          <div class="why"><span class="label">Why</span><p data-when="dv=y">ST 2094-10 is Dolby Vision's dynamic metadata. Use it if your display supports Dolby Vision and HDR10.</p>
+            <p data-when="dv=n">ST 2094-40 is HDR10+ dynamic metadata. Use it if your display only supports HDR10 or HDR10+.</p></div>
         </div>
       </article>
     </div>
