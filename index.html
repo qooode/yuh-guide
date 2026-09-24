@@ -41,8 +41,9 @@ button { font:inherit; color:inherit; background:none; border:none; cursor:point
 /* ═══════ Header ═══════ */
 .top { position:sticky; top:0; z-index:20; background:rgba(0,0,0,.7); backdrop-filter:saturate(160%) blur(18px); -webkit-backdrop-filter:saturate(160%) blur(18px); border-bottom:1px solid var(--line); }
 .top .wrap { display:flex; align-items:center; gap:32px; height:56px; }
-.brand { display:flex; align-items:center; gap:10px; font-size:15px; font-weight:600; letter-spacing:-.02em; color:var(--tx); text-decoration:none; flex-shrink:0; }
-.brand i { width:9px; height:9px; border-radius:2px; background:var(--tx); }
+.brand { display:flex; align-items:center; gap:9px; font-size:13px; font-weight:500; letter-spacing:-.01em; color:var(--tx3); text-decoration:none; flex-shrink:0; transition:color .2s; }
+.brand:hover { color:var(--tx2); }
+.brand i { width:7px; height:7px; border-radius:2px; background:var(--tx3); }
 .top nav { position:relative; display:flex; gap:2px; margin-left:auto; overflow-x:auto; scrollbar-width:none; }
 .top nav::-webkit-scrollbar { display:none; }
 .top nav a { font-size:13px; color:var(--tx3); text-decoration:none; padding:6px 12px; border-radius:6px; white-space:nowrap; transition:color .2s, background .2s; }
@@ -320,8 +321,8 @@ details[open] summary i::after { transform:rotate(0); }
 
 /* footer */
 footer { margin-top:200px; border-top:1px solid var(--line); }
-footer .wrap { padding-top:56px; padding-bottom:64px; display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap; }
-.fmark { font-size:clamp(44px,8vw,112px); font-weight:600; letter-spacing:-.06em; line-height:.85; color:var(--tx); }
+footer .wrap { padding-top:32px; padding-bottom:48px; display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; }
+.fmark { font-size:13px; font-weight:500; color:var(--tx3); }
 footer .label { text-align:right; line-height:1.9; }
 
 /* ═══════ Responsive ═══════ */
