@@ -86,9 +86,13 @@ button { font:inherit; color:inherit; background:none; border:none; cursor:point
 /* ═══════ Hero ═══════ */
 .hero { padding-top:112px; text-align:center; }
 .hero > .label { display:block; margin-bottom:28px; }
-h1 { font-size:clamp(48px,9vw,124px); line-height:.9; letter-spacing:-.058em; font-weight:600; color:var(--tx); }
-h1 span { display:block; color:#5c5c5c; }
-.lede { margin:36px auto 0; max-width:560px; font-size:20px; line-height:1.5; color:var(--tx2); letter-spacing:-.01em; }
+h1 { font-size:clamp(42px,6.6vw,92px); line-height:.94; letter-spacing:-.052em; font-weight:600; color:var(--tx); }
+/* a light glint passes over the title now and then, like a focused tvOS tile */
+h1 .l1, h1 .l2 { display:block; background-size:300% 100%; background-position:100% 0; -webkit-background-clip:text; background-clip:text; color:transparent; animation:glint 7s var(--ease) 1.2s infinite; }
+h1 .l1 { background-image:linear-gradient(100deg, #e4e4e4 0%, #e4e4e4 42%, #fff 47%, #fff 53%, #e4e4e4 58%, #e4e4e4 100%); }
+h1 .l2 { background-image:linear-gradient(100deg, #5a5a5a 0%, #5a5a5a 42%, #c8c8c8 48%, #c8c8c8 52%, #5a5a5a 58%, #5a5a5a 100%); animation-delay:1.35s; }
+@keyframes glint { 0% { background-position:100% 0; } 30%, 100% { background-position:0% 0; } }
+.lede { margin:24px auto 0; max-width:460px; font-size:16px; line-height:1.55; color:var(--tx2); }
 .cta { margin-top:40px; display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }
 .btn { display:inline-flex; align-items:center; gap:10px; height:46px; padding:0 22px; border-radius:8px; font-size:15px; font-weight:500; text-decoration:none; transition:background .2s, color .2s, border-color .2s, transform .2s; }
 .btn:active { transform:scale(.97); }
@@ -106,10 +110,10 @@ h1 span { display:block; color:#5c5c5c; }
 /* ═══════ Section heads ═══════ */
 section.wrap { padding-top:176px; }
 .sh { margin-bottom:48px; padding-top:32px; border-top:2px solid var(--tx); }
-.sh .label { display:block; margin-bottom:28px; color:var(--tx2); }
-h2 { font-size:clamp(56px,9.5vw,128px); line-height:.88; letter-spacing:-.06em; font-weight:600; color:var(--tx); }
-h2 .n { color:#2e2e2e; margin-right:.22em; font-variant-numeric:tabular-nums; }
-.sh p { margin-top:32px; font-size:19px; line-height:1.55; color:var(--tx2); max-width:620px; letter-spacing:-.005em; }
+.sh .label { display:block; margin-bottom:18px; color:var(--tx2); }
+h2 { font-size:clamp(36px,4.4vw,58px); line-height:1; letter-spacing:-.045em; font-weight:600; color:var(--tx); }
+h2 .n { color:#3c3c3c; margin-right:.3em; font-variant-numeric:tabular-nums; }
+.sh p { margin-top:18px; font-size:18px; line-height:1.55; color:var(--tx2); max-width:620px; letter-spacing:-.005em; }
 
 /* section brief: what you need, where to start, what's in it */
 .brief { display:grid; grid-template-columns:auto auto minmax(0,1fr); border-top:1px solid var(--line2); border-bottom:1px solid var(--line); margin-bottom:24px; }
@@ -344,7 +348,7 @@ footer .label { text-align:right; line-height:1.9; }
   .top nav { margin-left:0; margin-right:-20px; padding-right:20px; }
   .brand span { display:none; }
   .hero { padding-top:64px; }
-  .lede { font-size:18px; }
+  .lede { font-size:15px; }
   .hero-tv { margin-top:56px; }
   .hero-meta { display:grid; grid-template-columns:1fr 1fr; gap:28px 16px; }
   .hero-meta b { font-size:18px; }
@@ -355,8 +359,8 @@ footer .label { text-align:right; line-height:1.9; }
   .brief > div, .brief > div + div { padding:18px 0 20px; border-left:none; }
   .brief > div + div { border-top:1px solid var(--line); }
   .step h3 { font-size:26px; }
-  .sh .label { margin-bottom:20px; }
-  .sh p { margin-top:24px; }
+  .sh .label { margin-bottom:14px; }
+  .sh p { margin-top:14px; }
   .guide { margin-top:40px; }
   .todo-r { grid-template-columns:26px minmax(0,1fr); gap:10px 14px; padding:16px; }
   .todo-k { grid-column:2; }
@@ -414,7 +418,7 @@ footer .label { text-align:right; line-height:1.9; }
 <!-- ═══════════ HERO ═══════════ -->
 <div class="wrap hero">
   <span class="label">Setup guide · tvOS 26.6</span>
-  <h1>Apple TV 4K,<span>set up properly.</span></h1>
+  <h1><span class="l1">Apple TV 4K,</span><span class="l2">set up properly.</span></h1>
   <p class="lede">Every setting that matters for picture and sound, shown the way it looks on your screen, with the why behind each one.</p>
   <div class="cta">
     <a class="btn btn-w" href="#video">Start the guide
