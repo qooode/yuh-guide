@@ -187,6 +187,7 @@ body::after {
   background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1);
   border-radius:8px; transition:opacity .2s;
 }
+.ins-action + .ins-action { margin-top:-8px; }
 .ins-action-label {
   font-family:var(--mono); font-size:12px; font-weight:600;
   letter-spacing:.06em; text-transform:uppercase; color:var(--g);
@@ -354,6 +355,24 @@ body::after {
   font-size:14px; color:var(--g); margin-top:12px; line-height:1.55;
 }
 
+/* ======== FORMAT LISTS ======== */
+.fmt { margin-top:32px; display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:24px; }
+.fmt-list { border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+.fmt-item {
+  position:relative; padding:14px 44px 14px 20px; border-bottom:1px solid var(--line);
+  font-family:var(--mono); font-size:14px; font-weight:500; color:var(--w2);
+}
+.fmt-item:last-child { border-bottom:none; }
+.fmt-item::after {
+  content:'\2713'; position:absolute; right:20px; top:14px;
+  font-size:14px; color:var(--g);
+}
+.fmt-item.fb::after { content:'\2198'; color:var(--g2); }
+.fmt-note {
+  display:block; margin-top:4px; font-family:var(--sans);
+  font-size:13px; font-weight:400; color:var(--g); line-height:1.5;
+}
+
 /* ======== TABLE ======== */
 .tbl-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:12px; }
 table { width:100%; border-collapse:collapse; font-size:14px; }
@@ -394,7 +413,7 @@ footer .fb { font-weight:600; color:var(--g); }
     <a href="#audio">Audio Settings</a>
     <a href="#chain">TV & Devices</a>
     <a href="#dv">Dolby Vision</a>
-    <a href="#player">Fusion Player</a>
+    <a href="#player">Odin Player</a>
     <a href="#ref">Quick Reference</a>
   </div>
   <button class="burger" id="burger" aria-label="Menu" onclick="toggleMenu()">
@@ -408,7 +427,7 @@ footer .fb { font-weight:600; color:var(--g); }
   <a href="#audio" onclick="closeMenu()"><span class="mob-num">02</span> Audio Settings</a>
   <a href="#chain" onclick="closeMenu()"><span class="mob-num">03</span> TV & Devices</a>
   <a href="#dv" onclick="closeMenu()"><span class="mob-num">04</span> Dolby Vision</a>
-  <a href="#player" onclick="closeMenu()"><span class="mob-num">05</span> Fusion Player</a>
+  <a href="#player" onclick="closeMenu()"><span class="mob-num">05</span> Odin Player</a>
   <a href="#ref" onclick="closeMenu()"><span class="mob-num">06</span> Quick Reference</a>
 </div>
 
@@ -623,8 +642,8 @@ footer .fb { font-weight:600; color:var(--g); }
         <div class="pf-badge">P7</div>
         <div class="pf-body">
           <h4>Profile 7 — UHD Blu-ray</h4>
-          <p>Dual-layer format for physical media. Requires dedicated UHD player hardware. Not on ATV4K, won't ever be. Fusion can't work around this.</p>
-          <span class="pf-tag no">Not supported</span>
+          <p>Dual-layer format for physical media, found in disc remux files. The ATV4K can't play the Dolby Vision layer, so Odin falls back to HDR10 instead.</p>
+          <span class="pf-tag no">HDR10 fallback</span>
         </div>
       </div>
     </div>
@@ -634,30 +653,53 @@ footer .fb { font-weight:600; color:var(--g); }
 <!-- ════════════ 05 PLAYER ════════════ -->
 <section class="s" id="player">
   <div class="s-inner rv">
-    <div class="sh"><span class="sh-num">05</span><h2 class="sh-title">Fusion-specific settings</h2></div>
-    <p class="sh-desc">Everything above applies to any app on your ATV4K. This section is specifically for the Fusion player and its limitations.</p>
+    <div class="sh"><span class="sh-num">05</span><h2 class="sh-title">Odin-specific settings</h2></div>
+    <p class="sh-desc">Everything above applies to any app on your ATV4K. This section is specifically for the Odin player. These settings have changed compared to older versions, so double-check yours.</p>
   </div>
 
   <div class="s-wide rv">
     <div class="ins">
       <div class="ins-card">
-        <div class="ins-name">Cache to Disk</div>
-        <div class="ins-action"><span class="ins-action-label">Turn</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">On</span></div>
-        <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Fusion App</span><span class="arr">&rsaquo;</span><span class="crumb">Settings</span><span class="arr">&rsaquo;</span><span class="crumb">Player Settings</span><span class="arr">&rsaquo;</span><span class="crumb">Cache to Disk</span></div>
-        <p class="ins-why">This tells the Fusion player to buffer the stream ahead of time. Instead of loading each chunk right when you need it, the ATV4K downloads content in advance, which prevents stuttering and buffering interruptions during playback.</p>
+        <div class="ins-name">Cache Mode</div>
+        <div class="ins-action"><span class="ins-action-label">Set to</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">Memory</span></div>
+        <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Odin App</span><span class="arr">&rsaquo;</span><span class="crumb">Settings</span><span class="arr">&rsaquo;</span><span class="crumb">Video Player</span><span class="arr">&rsaquo;</span><span class="crumb">Cache Mode</span></div>
+        <p class="ins-why">This tells the Odin player to buffer the stream ahead of time in memory. Instead of loading each chunk right when you need it, the ATV4K loads content in advance, which prevents stuttering and buffering interruptions during playback.</p>
+      </div>
+
+      <div class="ins-card">
+        <div class="ins-name">Dynamic Range</div>
+        <div class="ins-action"><span class="ins-action-label">DV + HDR10 TV</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">ST 2094-10</span></div>
+        <div class="ins-action"><span class="ins-action-label">HDR10 / HDR10+ only TV</span><span class="ins-action-arrow">&rarr;</span><span class="ins-action-val">ST 2094-40</span></div>
+        <div class="ins-path"><span class="ins-path-label">Find it</span><span class="crumb">Odin App</span><span class="arr">&rsaquo;</span><span class="crumb">Settings</span></div>
+        <p class="ins-why">Pick based on what your TV supports. ST 2094-10 is the Dolby Vision style of dynamic metadata, so use it if your display handles Dolby Vision and HDR10. ST 2094-40 is the HDR10+ style, so use it if your display only supports HDR10 or HDR10+.</p>
       </div>
     </div>
 
-    <div class="unsup">
-      <div class="unsup-label">Unsupported formats</div>
-      <div class="unsup-list">
-        <div class="unsup-item">DV Profile 5 (Fusion player)</div>
-        <div class="unsup-item">DTS</div>
-        <div class="unsup-item">DTS-HD MA</div>
-        <div class="unsup-item">Dolby TrueHD</div>
+    <div class="fmt">
+      <div class="fmt-col">
+        <div class="unsup-label">Supported video</div>
+        <div class="fmt-list">
+          <div class="fmt-item">HDR10</div>
+          <div class="fmt-item">HDR10+</div>
+          <div class="fmt-item">Dolby Vision Profile 5</div>
+          <div class="fmt-item">Dolby Vision Profile 8</div>
+          <div class="fmt-item fb">Dolby Vision Profile 7<span class="fmt-note">Disc remuxes. Falls back to HDR10</span></div>
+        </div>
       </div>
-      <p class="unsup-note">Licensing. Premium codecs need a third-party player to decode first. Apple doesn't hold the licenses.</p>
+      <div class="fmt-col">
+        <div class="unsup-label">Supported audio</div>
+        <div class="fmt-list">
+          <div class="fmt-item">Stereo</div>
+          <div class="fmt-item">Multichannel PCM</div>
+          <div class="fmt-item">Dolby Digital</div>
+          <div class="fmt-item">Dolby Digital Plus<span class="fmt-note">Including Atmos</span></div>
+          <div class="fmt-item">DTS</div>
+          <div class="fmt-item fb">DTS-HD MA &amp; DTS:X<span class="fmt-note">Falls back to the lossy DTS core, played as multichannel PCM</span></div>
+          <div class="fmt-item fb">Dolby TrueHD<span class="fmt-note">Played as lossless multichannel PCM, without Atmos metadata</span></div>
+        </div>
+      </div>
     </div>
+    <p class="unsup-note"><b>&#10003;</b> plays as-is &nbsp;&middot;&nbsp; <b>&#8600;</b> plays with a fallback</p>
   </div>
 </section>
 
@@ -686,7 +728,8 @@ footer .fb { font-weight:600; color:var(--g); }
           <tr><td>TV Black Level</td><td>Limited</td><td>Your TV &rsaquo; Picture Settings</td></tr>
           <tr><td>TV HDMI Signal</td><td>Enhanced</td><td>Your TV &rsaquo; External Input Settings</td></tr>
           <tr><td>TV Pulldown</td><td>Off</td><td>Your TV &rsaquo; Picture &rsaquo; Motion Settings</td></tr>
-          <tr><td>Cache to Disk</td><td>On</td><td>Fusion App &rsaquo; Settings &rsaquo; Player Settings</td></tr>
+          <tr><td>Cache Mode</td><td>Memory</td><td>Odin App &rsaquo; Settings &rsaquo; Video Player</td></tr>
+          <tr><td>Dynamic Range</td><td>ST 2094-10 (DV TV) / ST 2094-40 (HDR10+ TV)</td><td>Odin App &rsaquo; Settings</td></tr>
         </tbody>
       </table>
     </div>
@@ -695,7 +738,7 @@ footer .fb { font-weight:600; color:var(--g); }
 
 <footer>
   <span class="fb">Yuhasebe</span>
-  <span>Updated Apr 17, 2026 &middot; tvOS 26.4</span>
+  <span>Updated Sep 13, 2026 &middot; tvOS 26.6</span>
 </footer>
 
 <script>

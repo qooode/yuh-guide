@@ -16,7 +16,7 @@ Set it once, never think about it again.
 
 **Dolby Vision** — Profile 5, 8, and 7 explained
 
-**Fusion player** — Cache settings and unsupported codec list
+**Odin player** — Cache mode, dynamic range, and supported formats
 
 ---
 
